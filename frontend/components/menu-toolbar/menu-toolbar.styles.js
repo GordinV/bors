@@ -5,7 +5,9 @@ module.exports = {
     selectStyle: {
         margin: '5px',
         display: 'flex',
-        width: '95%'
+        width: '95%',
+        borderRadius: '5px'
+
     },
     pageName: {
         fontWeight: 'bold',
@@ -14,7 +16,9 @@ module.exports = {
     selectKeel: {
         margin: '5px',
         display: 'flex',
-        width: '100px'
+        width: '100px',
+        height: '30px',
+        borderRadius: '5px'
     },
 
 

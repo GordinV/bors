@@ -7,6 +7,7 @@ const fetchData = require('./../../../libs/fetchData');
 const React = require('react'),
     ToolbarContainer = require('./../toolbar-container/toolbar-container.jsx'),
     BtnStart = require('./../button-register/button-register-start/button-register-start.jsx'),
+    BtnAdd = require('./../../components/button-register/button-register-add/button-register-add.jsx'),
     BtnLogin = require('./../button-register/button-login/button-login.jsx'),
     BtnEdit = require('./../button-register/button-register-edit/button-register-edit.jsx'),
     BtnInfo = require('./../button-register/button-info/index.jsx'),
@@ -14,9 +15,10 @@ const React = require('react'),
     SelectRekv = require('./../select-rekv/index.jsx'),
     Select = require('./../select/select.jsx'),
     BtnAccount = require('./../button-register/button-account/button-account.jsx');
+const Login = require('./../login/login.jsx');
+const SearchText = require('./../../docs/main/search-component.jsx');
 
 const style = require('./menu-toolbar.styles');
-const DocContext = require('./../../doc-context.js');
 const DocRights = require('./../../../config/doc_rights');
 const checkRights = require('./../../../libs/checkRights');
 
@@ -26,35 +28,59 @@ class MenuToolBar extends React.Component {
         super(props);
 
         this.state = {
-            logedIn: true,
+            logedIn: false,
+            showLogin: false,
             startMenuValue: 'parentid',
             showStartMenu: false,
             isOpenRekvPage: false,
             rekvId: props.rekvId ? props.rekvId : 1,
-            keel: DocContext.keel
+            keel: 'EST',
+            user: {
+                id: 0,
+                kasutaja: null,
+                ametnik: null
+            }
         };
 
 
         this.btnStartClick = this.btnStartClick.bind(this);
+        this.btnAddClick = this.btnAddClick.bind(this);
         this.btnLoginClick = this.btnLoginClick.bind(this);
         this.renderStartMenu = this.renderStartMenu.bind(this);
         this.startMenuClickHandler = this.startMenuClickHandler.bind(this);
-        this.handleChange = this.handleChange.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
         this.btnAccountClick = this.btnAccountClick.bind(this);
         this.btnEditRekvClick = this.btnEditRekvClick.bind(this);
+        this.renderLoginComponent = this.renderLoginComponent.bind(this);
+//        this.handleLoginClickEvent = this.handleLoginClickEvent.bind(this);
 
+//подписываемся на изменения в сторе
+        let store = this.props.store;
+        if (store) {
+            store.subscribe(() => {
+                // When state will be updated(in our case, when items will be fetched),
+                // we will update local component state and force component to rerender
+                // with new data.
+
+                let user = store.getState().statuses.user;
+                this.setState({
+                    user: user,
+                    logedIn: (user.id ? !!user.id : false)
+                });
+
+            })
+        }
     }
 
     render() {
-        // права на редактирование карточки контрагента
-        let docRightsRekv = DocRights['REKV'] ? DocRights['REKV'] : [];
-        let userRoles = DocContext.userData ? DocContext.userData.roles : [];
-
         let isEditMode = this.props.edited,
             toolbarParams = {
                 btnStart: {
                     show: this.props.params['btnStart'].show || false,
+                    disabled: isEditMode
+                },
+                btnAdd: {
+                    show: true,
                     disabled: isEditMode
                 },
                 btnLogin: {
@@ -71,65 +97,35 @@ class MenuToolBar extends React.Component {
                 }
             };
 
-        let userAccessList = [];
-
-        if (('userAccessList' in DocContext.userData)) {
-            userAccessList = DocContext.userData.userAccessList.map((row) => {
-                let rowObject = JSON.parse(row);
-                return {id: rowObject.id, kood: '', name: rowObject.nimetus};
-            });
-
-            // сортировка
-            userAccessList = userAccessList.sort((a, b) => {
-                return a.name.localeCompare(b.name, 'en', {sensitivity: 'base'})
-            });
-
-        }
-
-        let rekvId = this.state.rekvId,
-            asutus = userAccessList.find(row => {
-                return row.id == rekvId
-            }).name;
-
         return (
             <div style={style['container']}>
-                <p style={style['pageName']}> {DocContext.pageName ? DocContext.pageName : ''} </p>
                 <ToolbarContainer
                     ref='menuToolbarContainer'
                     position="left">
                     <BtnStart ref='btnStart'
+                              store={this.props.store}
                               onClick={this.btnStartClick}
                               show={toolbarParams['btnStart'].show}
                               disabled={toolbarParams['btnStart'].disabled}
                     />
+                    {this.state.logedIn ? (<BtnAdd onClick={this.btnAddClick}
+                                                   show={toolbarParams['btnAdd'].show}
+                                                   disable={toolbarParams['btnAdd'].disabled}/>) : null}
 
-                    <SelectRekv name='rekvId'
-                                libs="rekv"
-                                style={style['selectStyle']}
-                                data={userAccessList}
-                                readOnly={false}
-                                value={rekvId}
-                                defaultValue={asutus}
-                                collId='id'
-                                ref='rekvId'
-                                onChange={this.handleChange}/>
-                    {checkRights(userRoles, docRightsRekv, 'edit') ?
-
-                        <BtnEdit
-                            ref='btnEditRekv'
-                            value='Muuda'
-                            onClick={this.btnEditRekvClick}
-                        /> : null}
-                    <BtnAccount ref='btnAccount'
-                                value={DocContext.userData ? DocContext.userData.userName : ''}
-                                onClick={this.btnAccountClick}
-                                show={toolbarParams['btnAccount'].show}
-                                disabled={toolbarParams['btnAccount'].disabled}/>
+                    {this.state.logedIn ?
+                        (<BtnAccount ref='btnAccount'
+                                     value={this.state.user.ametnik ? this.state.user.ametnik : ''}
+                                     onClick={this.btnAccountClick}
+                                     show={toolbarParams['btnAccount'].show}
+                                     disabled={toolbarParams['btnAccount'].disabled}/>) : null}
                     <BtnLogin ref='btnLogin'
                               value={this.state.logedIn ? 'Välju' : 'Sisse'}
                               onClick={this.btnLoginClick}
                               show={toolbarParams['btnLogin'].show}
                               disabled={toolbarParams['btnLogin'].disabled}/>
+                    <SearchText
+                        store={this.props.store}
+                    />
                     <select ref="select"
                             style={style['selectKeel']}
                             value={this.state.keel || 'Est'}
@@ -142,20 +138,35 @@ class MenuToolBar extends React.Component {
                         <option value={'ING'} key={'ING'}
                                 ref={'ING'}> {'ING'} </option>
                     </select>
+                    {/*
                     <BtnInfo ref='btnInfo'
                              value={'Juhend'}
                              show={toolbarParams['btnInfo'].show}/>
+*/}
                 </ToolbarContainer>
                 {this.renderStartMenu()}
+                {this.state.showLogin ? (this.renderLoginComponent()) : null}
 
             </div>
         );
     }
 
+    /**
+     * отрисует конмпонент редактирования картины
+     * @returns {*}
+     */
+    renderLoginComponent() {
+        return (<Login show={true}
+                       id={0}
+                       store={this.props.store}
+                       loginClickEvent={this.handleLoginClickEvent}>
+            Login
+        </Login>)
+    }
+
     handleChangeSelect(e) {
         let fieldValue = e.target.value;
 
-        DocContext.keel = fieldValue;
         this.setState({keel: fieldValue});
         const current = window.location.pathname;
         this.props.history.replace(`/reload`);
@@ -168,11 +179,26 @@ class MenuToolBar extends React.Component {
     renderStartMenu() {
         let component = null;
         let data = [];
-        /*
-                data = DocContext.menu;
-        */
+        let user = {};
+        if (this.props.store) {
+            user = this.props.store.getState().statuses.user;
+            data = this.props.store.getState().menu.menu;
+
+            if (!user || !user.is_admin) {
+                data = data.filter(row => {
+                    // если нет пользователя, или он не адми, грузим только доступные
+                    if (!row.props || !row.props.is_admin) {
+                        return row;
+                    } else {
+                        return null;
+                    }
+                });
+            }
+        }
+
         if (this.state.showStartMenu) {
             component = <StartMenu ref='startMenu'
+                                   store={this.props.store}
                                    value={this.state.startMenuValue}
                                    data={data}
                                    clickHandler={this.startMenuClickHandler}/>
@@ -187,110 +213,80 @@ class MenuToolBar extends React.Component {
 
     }
 
+    btnAddClick() {
+        // обработчик для кнопки Start
+
+        //this.setState({showPicture: !this.state.showPicture});
+        // сигнал не перегрузку основного окна
+        if (this.props.btnClickEventHandler) {
+            this.props.btnClickEventHandler('btnAdd');
+        }
+    }
+
     /**
      * получит от стартого меню данные, спрячет меню
      */
     startMenuClickHandler(value) {
         this.setState({showStartMenu: false});
 
-        let docType = DocContext['menu'].find(row => row.kood === value);
-        if (docType) {
-            DocContext.pageName = docType.name;
-        }
+        if (this.props.store) {
+            // new action
+            let store = this.props.store;
+            if (value == 'RAAMA') {
+                window.open(`/RAAMA/login`);
+            } else {
+                store.dispatch({type: 'activePageComponent', activePageComponent: value});
+            }
 
-        if (this.props.history) {
-            return this.props.history.push({
-                pathname: `/${DocContext.module}/${value}`,
-                state: {module: DocContext.module}
 
-            });
         } else {
-            document.location.href = `/${DocContext.module}/${value}`
+            let docType = DocContext['menu'].find(row => row.kood === value);
+            if (docType) {
+                DocContext.pageName = docType.name;
+            }
+
+            if (this.props.history) {
+                return this.props.history.push({
+                    pathname: `/${DocContext.module}/${value}`,
+                    state: {module: DocContext.module}
+
+                });
+            } else {
+                document.location.href = `/${DocContext.module}/${value}`
+            }
         }
     }
 
     btnLoginClick() {
-        const URL = '/logout';
-        this.setState({logedIn: false});
-
-        try {
-            let userId = DocContext.userData.userId;
-            const params = {
-                userId: userId, module: DocContext.module,
-                uuid: this.state.logedIn ? DocContext.userData.uuid : null
-            };
-
-            fetchData.fetchDataPost(URL, params).then(() => {
-                    DocContext.userData = null;
-                }
-            );
-        } catch (e) {
-            console.error(e);
+        if (!this.state.logedIn) {
+            this.setState({showLogin: !this.state.showLogin})
+        } else {
+            // удалим из стора пользователя
+            let store = this.props.store;
+            store.dispatch({type: 'user', user: {}});
+            this.setState({logedIn: false});
         }
-        document.location.href = '/login';
     }
 
 
     btnAccountClick() {
-        return this.props.history.push({
-            pathname: `/${DocContext.module}/userid/${DocContext.userData.userId}`,
-            state: {module: DocContext.module}
-        });
-
-
+        /*
+                return this.props.history.push({
+                    pathname: `/${DocContext.module}/userid/${DocContext.userData.userId}`,
+                    state: {module: DocContext.module}
+                });
+        */
     }
 
     btnEditRekvClick() {
-        return this.props.history.push({
-            pathname: `/${DocContext.module}/rekv/${DocContext.userData.asutusId}`,
-            state: {module: DocContext.module}
-        });
-
-    }
-
-    handleChange(inputName, inputValue) {
-
-        const URL = '/newApi/changeAsutus';
-        let rekvId = inputValue; // choose asutusId
-
-        if (!this.state.logedIn) {
-            return;
-        }
-
-        // отправить пост запрос
-        try {
-            let localUrl = `${URL}/${rekvId}`;
-            let userId = this.state.logedIn ? DocContext.userData.userId : null;
-            let uuid = this.state.logedIn ? DocContext.userData.uuid : null;
-
-            const params = {
-                userId: userId,
-                module: DocContext.module,
-                docTypeId: DocContext.docTypeId,
-                uuid: uuid
-            };
-
-            this.setState({rekvId: rekvId});
-
-            fetchData.fetchDataPost(localUrl, params).then(response => {
-                DocContext.userData = Object.assign(DocContext.userData, response.config.data);
-
-                // redirect to main
-                this.props.history.push({
-                    pathname: `/${DocContext.module}/`,
+        /*
+                return this.props.history.push({
+                    pathname: `/${DocContext.module}/rekv/${DocContext.userData.asutusId}`,
+                    state: {module: DocContext.module}
                 });
-                document.location.reload();
+        */
 
-            });
-
-        } catch (e) {
-            console.error(e);
-        }
-        // получить и сохрать данные пользователя
-        // обновить регистр документов - перейти на главную страницу
     }
-
-
 }
 
 /*

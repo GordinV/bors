@@ -1,4 +1,7 @@
-const getTextValue = require('./libs/getTextValue');
+function obj(id) {
+    this.id = 0
+}
 
+let Obj = new obj();
 
-console.log(getTextValue("Lisa andmed",2))
+console.log('Obj', Obj)

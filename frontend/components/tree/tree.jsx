@@ -16,7 +16,7 @@ class Tree extends React.PureComponent {
             index: this.getIndex(props.value),
             value: props.value,
             hover: false,
-            parentId: 'document'
+            parentId: 'main'
         };
         this.handleLiClick = this.handleLiClick.bind(this);
         this.toggleHover = this.toggleHover.bind(this);
@@ -29,6 +29,7 @@ class Tree extends React.PureComponent {
     }
 
     render() {
+
         if (!this.props.data.length) {
             return null;
         }
@@ -46,23 +47,33 @@ class Tree extends React.PureComponent {
      * @param isNode
      */
     handleLiClick(selectedIndex, selectedId, isNode) {
-        if (!isNode && !isNaN(selectedId)) {
-            // не нода, а документ
-            const data = this.props.data.filter((row) => {
-                    if (row.id === selectedId) {
-                        return row;
-                    }
-                }),
-                value = data[0][this.props.bindDataField];
+        if (!isNode) {
+            if (!isNaN(selectedId)) {
+                // не нода, а документ
+                const data = this.props.data && this.props.data.filter ? this.props.data.filter((row) => {
+                        if (row.id === selectedId) {
+                            return row;
+                        }
+                    }) : [] ,
+                    value = data[0][this.props.bindDataField];
 
-            this.setState({
-                index: selectedIndex,
-                value: value
-            });
+                this.setState({
+                    index: selectedIndex,
+                    value: value
+                });
 
-            if (this.props.onClickAction) {
-                this.props.onClickAction(this.props.name + 'Change', value);
+                if (this.props.onClickAction) {
+                    this.props.onClickAction(this.props.name + 'Change', value);
+                }
+            } else {
+                // проект bors
+                this.setState({activeComponent:selectedId})
+                if (this.props.onClickAction) {
+                    this.props.onClickAction(this.props.name + 'Change', selectedId);
+                }
+
             }
+
         } else {
             //isNode
             if (selectedId !== '0' && selectedId !== DocContext.module) {
@@ -99,8 +110,7 @@ class Tree extends React.PureComponent {
             linkStyle = {backgroundColor: 'blue'}
         }
 
-        const style = Object.assign({},styles.ul, this.props.style ? this.props.style: {});
-
+        const style = Object.assign({}, styles.ul, this.props.style ? this.props.style : {});
         return (
             <ul
                 style={style}
@@ -115,8 +125,8 @@ class Tree extends React.PureComponent {
                     if (!subRow.is_node && this.state.parentId !== subRow.parentid) {
                         is_hidden = true;
                     }
-let name = getTextValue(subRow.name);
-                    console.log('tree', name, subRow.id)
+
+                    let name = getTextValue(subRow.name);
                     return (
                         <li
                             className={subRow.is_node ? 'node' : 'menu'}

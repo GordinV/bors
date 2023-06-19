@@ -35,7 +35,7 @@ class ModalPage extends React.PureComponent {
 
     handleBtnClick(btnEvent) {
         // закрываем окно и если передан обработчик, отдаем туда данные
-
+console.log('Modal btn clicked', btnEvent)
         this.changeVisibilityModalPage();
         if (this.props.modalPageBtnClick) {
             let show = this.props.modalPageBtnClick(btnEvent);

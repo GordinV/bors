@@ -1,9 +1,8 @@
 {
-  "presets": ["react", "env", "node6"],
+  "presets": ["react", "env", "node6","es2015"],
   "plugins": ["transform-decorators-legacy",
     "transform-class-properties",
     "transform-react-jsx",
     "transform-object-rest-spread"
   ]
 }
-

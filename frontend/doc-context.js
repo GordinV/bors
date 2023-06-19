@@ -1,12 +1,13 @@
 const createEmptyFilterData = require('./../libs/createEmptyFilterData');
 
-const DocContext = {
-    filter: {},
-    libs: {},
-    menu: [],
-    keel: 'EST',
-    docTypeId: 'TAOTLUS_LOGIN',
-    initFilter: (docTypeId) => {
+function DocContext() {
+    this.filter =  {},
+    this.libs= {},
+    this.menu=  [],
+    this.pictures=  [],
+    this.keel=  'EST',
+    this.userData= {},
+    this.initFilter = (docTypeId) => {
         /**
          * метод создаст пустой фильтр по переданной конфигурации
          */
@@ -21,7 +22,6 @@ const DocContext = {
         }
 
     }
-
 };
 
 

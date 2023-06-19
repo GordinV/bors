@@ -14,6 +14,7 @@ const app = express(),
     errorHandle = require('errorhandler'),
     config = require('config'),
     cookieParser = require('cookie-parser'),
+    busboy = require('connect-busboy'),
     bodyParser = require('body-parser'),
     logger = require('morgan'),
     pg = require('pg'),
@@ -25,6 +26,7 @@ const app = express(),
     fs = require('fs'),
     csrf = require('csurf');
 
+const fileupload = require("express-fileupload");
 
 const log = require('./libs/log')(module); //@not found
 const HttpError = require('./error').HttpError;
@@ -106,6 +108,10 @@ app.use(helmet());
 app.use(compression());
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
+//app.use(fileupload({useTempFile: true}));
+//app.use(busboy());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser(config.get('session.secret')));

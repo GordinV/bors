@@ -90,7 +90,6 @@ class Documents extends React.Component {
      * пишем делаем запрос по итогу загрузки
      */
     componentDidMount() {
-        console.log('componentDidMount start')
         if (!DocContext.filter) {
             DocContext.filter = {};
         }
@@ -108,8 +107,6 @@ class Documents extends React.Component {
         if (!DocContext.filter[this.docTypeId] && DocContext.gridConfig[this.docTypeId]) {
             let config = DocContext.gridConfig[this.docTypeId];
             let filter = prepareData(config, this.docTypeId);
-
-            console.log('config',config, filter)
 
             // ищем дефолтные значения
             config.forEach(row => {
@@ -143,8 +140,6 @@ class Documents extends React.Component {
             this.filterData = DocContext.filter[this.docTypeId];
             reload = true;
         }
-
-        console.log('check for fecth',this.gridData, this.filterData )
 
         if (reload || !this.props.initData || !this.gridData || !this.gridData.length || !this.props.initData.docTypeId) {
 

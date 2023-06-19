@@ -17,7 +17,8 @@ class StartMenu extends React.PureComponent {
         super(props);
 
         this.state = {
-            value: props.value
+            value: props.value,
+            data: props.data
         };
 
         this.treeData = props.data;
@@ -29,18 +30,38 @@ class StartMenu extends React.PureComponent {
      * пишем делаем запрос по итогу загрузки
      */
     componentDidMount() {
-        if (!this.treeData.length) {
-            //делаем запрос на получение данных
-            this.fetchData(this.props);
+        if (this.props.store) {
+            let data = this.props.store.getState().menu.menu;
+            let user = this.props.store.getState().statuses.user;
+            if (!user || !user.is_admin) {
+                data = data.filter(row => {
+                    // если нет пользователя, или он не адми, грузим только доступные
+                    if (!row.props || !row.props.is_admin) {
+                        return row;
+                    } else {
+                        return null;
+                    }
+                });
+
+            }
+
+            this.treeData = data;
+            this.setState({data: data});
+            DocContext['menu'] = data;
+        } else {
+            if (!this.treeData.length) {
+                //делаем запрос на получение данных
+                this.fetchData(this.props);
+            }
+
         }
     }
 
     render() {
-
         return (
             <div style={styles.container}>
                 <TreeList ref='treeList'
-                          style = {styles.ul}
+                          style={styles.ul}
                           data={this.treeData}
                           bindDataField="kood"
                           value={this.state.value}
@@ -60,8 +81,19 @@ class StartMenu extends React.PureComponent {
      * Выполнит запросы
      */
     fetchData(props) {
-        let url = URL + `/${DocContext.module}`;
-        let params = {userId: DocContext.userData.userId, uuid: DocContext.userData.uuid};
+        console.log('statr fetch')
+        let module = DocContext.module ? DocContext.module : 'main';
+        let url = URL + `/${module}`;
+        let params = {};
+
+        if (this.props.store) {
+            // берем данные из стора
+            let user = this.props.store.getState().statuses.user;
+            params = {userId: user.id, uuid: ''}
+        } else {
+            params = {userId: DocContext.userData.userId, uuid: DocContext.userData.uuid};
+        }
+        console.log('menu', url, params)
 
         try {
             // will check in cache

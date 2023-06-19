@@ -8,19 +8,27 @@ module.exports = {
         return axios.get(url)
             .then(res => res)
             .catch(error => {
-                console.error('fetchData status, error', error.response.status , error);
+                console.error('fetchData status, error', error.response.status, error);
                 return ({result: 'error', status: error.response.status});
             })
     },
-    fetchDataPost(url, params) {
-        return axios.post(url, params)
+    fetchDataPost(url, params, fileType) {
+        let headers = {
+            'Content-Type': 'multipart/form-data'
+        }
+
+        console.log('fetch', url, params)
+        return axios.post(url, params, headers).then((res, err) => {
+            console.log('fetch lib res', res, err )
+            return res;
+        })
             .catch(error => {
                 console.error('fetchData error', error.response.status, error);
                 return ({result: 'error', status: error.response.status});
             })
     },
     fetchDataPut(url, params) {
-        return axios.put(url, params)
+        return axios.put(url, params,headers)
             .catch(error => {
                 console.error('fetchData error', error.response.status, error);
                 return ({result: 'error', status: error.response.status});

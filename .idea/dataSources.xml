@@ -20,5 +20,17 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://194.106.98.75:5432/db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="narvalv" uuid="aa147e1b-6ea9-42e7-ae11-506a204f8380">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://80.235.127.119:5438/db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="bors@localhost" uuid="f195991b-2937-4c77-b144-05e4e57a7d5b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/bors</jdbc-url>
+    </data-source>
   </component>
 </project>

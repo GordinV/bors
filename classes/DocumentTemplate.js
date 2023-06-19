@@ -90,7 +90,6 @@ class Document {
             sql = this.config.saveDoc;
         }
 
-console.log(sql, JSON.stringify(params));
         let data = await db.queryDb(sql, [params.data, params.userId, params.asutusId]);
 
         if (data && data.error_code) {

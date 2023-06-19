@@ -28,3 +28,6 @@ config/default.json
 config/root.crt
 config/server.crt
 config/server.key
+
+#exe
+*.exe

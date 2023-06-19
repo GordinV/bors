@@ -11,7 +11,7 @@ module.exports = {
         width: '50%'
     },
     buttonLogin: {
-        width: '50%'
+        width: '100px'
     },
     buttonEdit: {
         display: 'flex'

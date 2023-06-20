@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+html(lang="et")
+extends report_header
+
+block content
+    meta(charset='utf-8')
+
+    style(type='text/css').
+        .grid_head {
+            background-color: lightgray;;
+        }
+
+        .doc_wrapper {
+            margin-left: 5%;
+            margin-top: 5%;
+            width: auto;
+        }
+
+        .grid_data {
+            width: 100%;
+            border: 1px solid lightgray;
+        }
+
+        .row_wrapper {
+            display: -webkit-box;
+            flexDirection: row;
+        }
+
+        .label {
+            width: 10%;
+        }
+
+        .input {
+            width: 90%;
+            margin-left: 5%;
+            font-weight: bold;
+        }
+
+        .label_subtotal {
+            width: 70%;
+        }
+
+        .kulastavus {
+            width: 100px
+        }
+    link(rel='stylesheet', href='/stylesheets/reports.css')
+
+    div.body_wrapper
+        h1 KÄIBEANDMIK
+        each parameter in filter
+            p #{parameter.name}: #{!parameter.start ? parameter.value : parameter.start} #{parameter.start ? ` - ${parameter.end}` : null}
+
+            table.table.table-hover.grid_data
+                thead.grid_head
+                    tr
+                        th Konto
+                        th Nimetus
+                        th Alg.saldo
+                        th Deebet
+                        th Kreedit
+                        th Lõpp saldo
+
+                tbody
+                    each rea in data
+                        tr
+                            td(align='center')=rea.konto
+                            td(align='center')=rea.nimetus
+                            td(align='center')=rea.alg_saldo
+                            td(align='center')=rea.deebet
+                            td(align='center')=rea.kreedit
+                            td(align='center')=rea.lopp_saldo
+                    tr.group
+                        td.group='Kokku:'
+                        td.group=''
+                        td(align='center').group=data[0].alg_saldo_total
+                        td(align='center').group=data[0].deebet_total
+                        td(align='center').group=data[0].kreedit_total
+                        td(align='center').group=data[0].lopp_saldo_total
+

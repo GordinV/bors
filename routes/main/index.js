@@ -183,6 +183,9 @@ exports.post = async (req, res) => {
     let sql;
     let params = req.params;
     let filter = req.body.filter ? req.body.filter : '';
+    let continent = req.body.additionalFilters && req.body.additionalFilters.continent ? req.body.additionalFilters.continent : '';
+    let region = req.body.additionalFilters && req.body.additionalFilters.region ? req.body.additionalFilters.region : '';
+    let city = req.body.additionalFilters && req.body.additionalFilters.city ? req.body.additionalFilters.city : '';
 
     if (!req.params.id || req.params.id == 'undefined' || typeof req.params.id == 'undefined') {
         // регистр
@@ -210,10 +213,15 @@ exports.post = async (req, res) => {
                             UNION ALL 
                             SELECT 3 AS id, 'Deleted' AS name
                             ) st ON st.id = p.status
-                WHERE p.name ILIKE '%${filter}%'
+                WHERE (p.name ILIKE '%${filter}%'
                  OR p.description ILIKE '%${filter}%'
                  OR p.kood ILIKE '%${filter}%'
-                 OR a.nimetus ILIKE '%${filter}%'
+                 OR a.nimetus ILIKE '%${filter}%')
+                AND (('${continent}' = '' OR coalesce(a.properties->>'continent','continent') ILIKE '%${continent}%')
+                AND ('${region}' = '' OR coalesce(a.properties->>'region','region') ILIKE '%${region}%')
+                AND ('${city}' = '' OR coalesce(a.properties->>'city','city') ILIKE '%${city}%')
+                  )
+
                ORDER BY coalesce(d.price, 10) DESC
                LIMIT 10`;
     } else {

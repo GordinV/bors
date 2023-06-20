@@ -44,7 +44,7 @@ exports.post = async (req, res) => {
                   a.properties ->> 'city'      AS city
 
            FROM libs.asutus a
-                    LEFT OUTER JOIN ou.taotlus_login t ON (a.properties ->> 'taotlus_id')::INTEGER = a.id
+                    LEFT OUTER JOIN ou.taotlus_login t ON (a.properties ->> 'taotlus_id')::INTEGER = t.id
            WHERE (a.staatus < 3
              AND a.properties ->> 'taotlus_id' IS NOT NULL)
               AND  (a.nimetus ILIKE '%${filter}%'
@@ -84,6 +84,7 @@ exports.put = async (req, res) => {
                        nimetus = '${params.name}',
                        tel = '${params.tel}',
                        email= '${params.email}',
+                       aadress= '${params.aadress}',                       
                        properties = coalesce(properties,'{}')::JSONB || jsonb_build_object('region', '${params.region}', 'continent', '${params.continent}', 'city', '${params.city}')
                     WHERE id = ${params.id}`;
 

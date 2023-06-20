@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+html(lang="et")
+extends report_header
+
+block content
+    style(type='text/css').
+        .grid_head {
+            background-color: lightgray;;
+        }
+
+        .doc_wrapper {
+            margin-left: 5%;
+            margin-top: 5%;
+            width: auto;
+        }
+
+        .grid_data {
+            width: 100%;
+            border: 1px solid lightgray;
+        }
+
+        .row_wrapper {
+            display: -webkit-box;
+            flexDirection: row;
+        }
+
+        .label {
+            width: 10%;
+        }
+
+        .input {
+            width: 90%;
+            margin-left: 5%;
+            font-weight: bold;
+        }
+
+        .label_subtotal {
+            width: 70%;
+        }
+
+
+    link(rel='stylesheet', href='/stylesheets/reports.css')
+    div.body_wrapper
+        h1 Arvete register
+
+        table.table.table-hover.grid_data
+            thead.grid_head
+                tr
+                    th Kuupäev
+                    th Asutus
+                    th Selgitus
+                    th Dokument
+                    th Db
+                    th Kr
+                    th Summa
+                    th Number
+                    th Lisatud
+                    th Viimane parandus
+
+            tbody
+                each rea in data
+                    tr
+                        td(align='center')=rea.kpv
+                        td(align='center')=rea.asutus
+                        td(align='center')=rea.selg
+                        td(align='center')=rea.dok
+                        td(align='center')=rea.deebet
+                        td(align='center')=rea.kreedit
+                        td(align='center')=Number(rea.summa).toFixed(2)
+                        td(align='center')=rea.number
+                        td(align='center')=rea.created
+                        td(align='center')=rea.lastupdate
+
+        - var total = 0
+        - var read = 0
+        each rea in data
+            - total += Number(rea.summa)
+            - read += 1
+
+        div.row_wrapper
+            p.label_subtotal Summa kokku:
+            p.input #{`${Number(total).toFixed(2)},  read kokku: ${read}`}

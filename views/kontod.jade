@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+html(lang="et")
+extends report_header
+
+
+block content
+    link(rel='stylesheet', href='/stylesheets/reports.css')
+    style(type='text/css').
+        .kood {
+            width: 100px;
+        }
+
+    div.body_wrapper
+        h1 Kontoplaan
+        table.table.table-hover.grid_data
+            thead.grid_head
+                tr
+                    th Kood
+                    th Nimetus
+                    th Konto tüüp
+                    th Kehtivus
+                    th Märkused
+
+            tbody
+                each konto in data
+                    tr
+                        td.kood(align='center')=konto.kood
+                        td(align='center')=konto.nimetus
+                        td(align='center')=konto.konto_tyyp
+                        td.kood(align='center')=konto.valid
+                        td(align='center')=konto.muud

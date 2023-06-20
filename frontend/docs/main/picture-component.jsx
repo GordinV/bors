@@ -83,7 +83,7 @@ class Picture extends React.PureComponent {
         let authors = [{id: 0, code: '', name: ''}].concat(this.props.store.getState().authors);
         let picture = this.getPictureFromStore();
         let pictureId = picture && picture.length ? picture[0]: 0;
-        let selectedFile = `data:image/jpeg;base64,/${picture[0].file}`;
+        let selectedFile = picture && picture.length ?  `data:image/jpeg;base64,/${picture[0].file}` : null;
 
         if (!pictureId) {
             return <div>Data is loading</div>

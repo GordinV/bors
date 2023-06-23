@@ -51,7 +51,8 @@ const db = {
         }
 
  //       const client = connectDb(config);
-        await client.connect();
+        let l_connect = await client.connect();
+        console.log('connect', l_connect, config.pg.connection)
 
         try {
             const res = await client.query(prepairedSqlString, params);

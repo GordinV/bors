@@ -63,7 +63,7 @@ const db = {
                 // usual query
                 result = Object.assign(result, {data: res.rows}, {result: res.rowCount});
             }
-
+            console.log('res', JSON.stringify(res));
         } catch (e) {
             console.error('tekkis viga', e, prepairedSqlString);
             result.error_code = 9;

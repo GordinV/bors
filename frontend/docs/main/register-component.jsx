@@ -58,7 +58,6 @@ class RegisterComponent extends React.PureComponent {
             logedIn = user && user.id ? true : false;
         }
 
-        console.log('render ', pictures);
         if (pictures && pictures.length) {
             Component = pictures.map((picture, idx) => {
                 return (
@@ -160,14 +159,19 @@ class RegisterComponent extends React.PureComponent {
         let pictures = this.props.store.getState().pictures.pictures;
         let pictureId = pictures[idx].id;
 
+
         this.props.store.dispatch({type: 'pictureId', pictureId: pictureId});
         switch (event) {
             case 'btnAdd':
                 // новая картинка
+
+                this.props.store.dispatch({type: 'pictureId', pictureId: null});
+                this.props.store.dispatch({type: 'isPictureShow', isPictureShow: true});
                 this.setState({editDocument: true, pictureId: null})
                 break;
             case 'edit':
                 // меняем статус окна
+                this.props.store.dispatch({type: 'pictureId', pictureId: pictureId});
                 this.props.store.dispatch({type: 'isPictureShow', isPictureShow: true});
                 this.setState({editDocument: true, saleDocument: false, pictureId: pictureId})
                 break;

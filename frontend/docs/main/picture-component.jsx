@@ -83,11 +83,23 @@ class Picture extends React.PureComponent {
         let authors = [{id: 0, code: '', name: ''}].concat(this.props.store.getState().authors);
         let picture = this.getPictureFromStore();
         let pictureId = picture && picture.length ? picture[0]: 0;
-        let selectedFile = picture && picture.length ?  `data:image/jpeg;base64,/${picture[0].file}` : null;
-
         if (!pictureId) {
-            return <div>Data is loading</div>
+            // new picture
+            pictureId = null;
+            picture = [{
+                id: null,
+                kood: this.state.kood,
+                nimetus: this.state.nimetus,
+                description: this.state.description,
+                author_id: this.state.author_id,
+                file: this.state.selectedFile
+            }];
+//            return <div>Data is loading</div>
         }
+
+        let selectedFile = picture && picture.length && picture[0].id ?  `data:image/jpeg;base64,/${picture[0].file}` : this.state.uploadedImage;
+        console.log('render', this.state, selectedFile)
+
 
         return (
             <ModalPage show={this.state.show}
@@ -100,7 +112,7 @@ class Picture extends React.PureComponent {
                 ) : null}
                 <div style={styles.docRow}>
                     <div style={styles.pictureFrame}>
-                        {pictureId ? <img
+                        {selectedFile ? <img
                             src={selectedFile}
                             alt={'Image'}
                             key={'img_1'}

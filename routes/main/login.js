@@ -52,12 +52,10 @@ async function getUser(login, password) {
            LIMIT 1`;
     try {
 
-        console.log('login', sql, login)
         let data = await db.queryDb(sql, [login]);
         if (data && data.error_code) {
             console.error('Viga', sql);
         }
-        console.log('data', data);
         return (data);
 
     } catch (e) {

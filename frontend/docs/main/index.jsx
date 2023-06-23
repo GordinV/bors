@@ -101,6 +101,7 @@ class Register extends React.PureComponent {
         const _style = Object.assign({}, styles, this.props.style ? this.props.style : {});
         const warningStyle = null;//this.state.warningType && styles[this.state.warningType] ? styles[this.state.warningType] : null;
 
+        console.log('index render', this.state)
         return (
             <div style={_style.doc}>
                 <Menu params={btnParams}
@@ -159,9 +160,12 @@ class Register extends React.PureComponent {
      * @param docId
      */
     btnClickEventHandler(event, docId) {
+        console.log('index btnClickEventHandler', event, docId, this.state.activeComponent)
         switch (event) {
             case 'btnAdd':
                 // новая картинка
+                this.props.store.dispatch({type: 'pictureId', pictureId: null});
+                this.props.store.dispatch({type: 'isPictureShow', isPictureShow: true});
                 this.setState({editDocument: true, pictureId: null})
                 break;
             case 'reload':
@@ -276,7 +280,6 @@ class Register extends React.PureComponent {
             URL = url;
         }
 
-    console.log('this.state.activeComponent',this.state.activeComponent, URL)
         let user = this.props.store.getState().statuses.user;
         let additionalFilters = this.props.store.getState().filters.filter.additionalFilter;
         let filter = this.props.store.getState().filters.filter.searchText;
@@ -285,29 +288,24 @@ class Register extends React.PureComponent {
         return new Promise((resolved, rejected) => {
 
             fetchData['fetchDataPost'](URL, params).then(response => {
-                console.log('response', response)
                 // error handling
                 if (response.status === 200) {
                     let store = this.props.store;
                     // сохраним данные в сторе
                     switch (this.state.activeComponent) {
                         case 'pictures': {
-                            console.log('pictures dispatch called')
                             store.dispatch({type: 'pictures', pictures: response.data.data});
                             break;
                         }
                         case 'TAOTLUS_LOGIN': {
-                            console.log('TAOTLUS_LOGIN dispatch called')
                             store.dispatch({type: 'userApplications', userApplications: response.data.data});
                             break;
                         }
                         case 'DEALS': {
-                            console.log('DEALS dispatch called')
                             store.dispatch({type: 'deals', deals: response.data.data});
                             break;
                         }
                         case 'AUTHORS': {
-                            console.log('AUTHORS')
                             store.dispatch({type: 'authors', library: response.data.data});
                             break;
                         }

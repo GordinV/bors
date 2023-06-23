@@ -215,7 +215,7 @@ class MenuToolBar extends React.Component {
 
     btnAddClick() {
         // обработчик для кнопки Start
-
+console.log('dbtAdd clicked', this.props)
         //this.setState({showPicture: !this.state.showPicture});
         // сигнал не перегрузку основного окна
         if (this.props.btnClickEventHandler) {

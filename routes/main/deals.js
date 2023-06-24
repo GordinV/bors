@@ -82,7 +82,6 @@ exports.accept = async (req, res) => {
         return res.status(500).send({error_code: 500, error_message: 'No parameters', result: -1});
     }
 
-    console.log('delete', params.event, params.id)
     switch (params.event) {
         case 'accept':
             sql = `select bors.accept_deal(${params.user.id}, ${params.id})`;

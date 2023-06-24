@@ -35,7 +35,7 @@ exports.post = async (req, res) => {
            SELECT ${l_picture_id} AS picture_id, a.id AS asutus_id, u.id AS user_id, ${l_price} AS price, current_date, 0
            FROM libs.asutus a
                     INNER JOIN ou.userid u ON u.properties->>'taotlus_id' = a.properties->>'taotlus_id'
-           WHERE u.id = 24
+           WHERE u.id = ${user.id}
            ORDER BY   u.id DESC LIMIT 1;
            UPDATE bors.pictures SET status = 2 WHERE id = ${l_picture_id};`;
     try {

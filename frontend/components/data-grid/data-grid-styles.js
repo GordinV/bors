@@ -21,7 +21,7 @@ module.exports = {
         borderBottom: '1px solid black',
         backgroundColor: 'grey',
         height: '30px',
-        border: '1px solid lightgray',
+//        border: '1px solid lightgray',
         display: 'table-cell',
         color:'black',
         boldColor: 'red'
@@ -31,7 +31,7 @@ module.exports = {
         borderBottom: '1px solid black',
         backgroundColor: 'grey',
         height: '1px',
-        border: '1px solid lightgray',
+//        border: '1px solid lightgray',
         display: 'table-cell'
     },
 
@@ -44,7 +44,8 @@ module.exports = {
     },
 
     td: {
-        border: '1px solid lightgray',
+//        border: '1px solid lightgray',
+//        borderBottom: '1px solid black',
         display: 'table-cell',
         paddingLeft: '5px'
     },

@@ -11,7 +11,7 @@ module.exports = {
     },
     modalPage: {
         position: 'relative',
-        border: '1px solid black',
+        border: '1px solid lightgray',
         background: 'white',
         margin: '8px',
         borderRadius: '4px',

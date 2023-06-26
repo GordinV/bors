@@ -28,6 +28,7 @@ class Logup extends React.PureComponent {
     render() {
         return (
             <ModalPage show={this.state.show}
+                       modalPageName={'New user registration'}
                        modalPageBtnClick={this.onClickHandled}
                        modalPageBtnClick={this.onClickHandled}
             >

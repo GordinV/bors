@@ -62,8 +62,6 @@ class UserApplicationsComponent extends React.PureComponent {
     }
 
     renderGridComponent(data) {
-        console.log('renderGridComponent')
-
         let user = this.state.user;
 
         if (!user) {

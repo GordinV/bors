@@ -3,12 +3,10 @@ module.exports = {
         mainTable: {
             width: '100%',
             td: {
-                border: '1px solid lightGrey',
                 display: 'table-cell',
                 paddingLeft: '5px',
             },
             th: {
-                border: '1px solid black',
                 display: 'table-cell',
                 paddingLeft: '5px',
             },
@@ -48,7 +46,8 @@ module.exports = {
     },
     pageFrame: {
         display: 'inline-flex',
-        border: '1px solid black'
+        border: '1px solid black',
+        borderRadius: '10px'
     },
     filterFrame: {
         width: '30%',
@@ -87,6 +86,18 @@ module.exports = {
     button_delete: {
         icon: 'images/icons/delete.png',
     },
+    error: {
+        width: '100%',
+        backgroundColor: 'lightcoral'
+    },
+    ok: {
+        width: '100%',
+        backgroundColor: 'lightgreen'
+    },
+    info: {
+        width: '100%',
+        backgroundColor: 'lightyellow'
+    },
     icons: {
         add: '/images/icons/add.png',
         edit: '/images/icons/edit.png',
@@ -120,11 +131,12 @@ module.exports = {
         text: {
             border: 0,
             padding: 0,
-            outline: 0
-
+            outline: 0,
+            height: '25px'
         },
         button: {
-            height: '30px',
+            height: '28px',
+            width: '28px',
             border: 0,
             padding: 0,
             outline: 0
@@ -138,18 +150,20 @@ module.exports = {
         width: '30px',
         marginLeft: '2px'
     },
-    select : {
+    select: {
         height: '30px',
         width: '100px',
         borderRadius: '5px',
     },
-    filterBlock : {
-        marginTop: '5px'
-//        display: 'inline-block',
+    filterBlock: {
+        marginTop: '5px',
+        backgroundColor: 'white',
+        opacity: '0.9'
 
     },
     filterLabel: {
         display: 'inline-block',
-        width: '30%'
+        width: '30%',
+        marginRight: '10px'
     }
 };

@@ -23,11 +23,11 @@ BEGIN
           AND invoice_id = new.parentid
         LIMIT 1;
 
-        IF v_deal IS NULL
+/*        IF v_deal IS NULL
         THEN
-            RAISE EXCEPTION 'deal not found';
+            RAISE EXCEPTION 'deal not found, v_deal %', v_deal;
         END IF;
-
+*/
         -- 1. update deal status
         UPDATE bors.deals SET status = 2 WHERE id = v_deal.id;
 

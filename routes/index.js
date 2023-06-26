@@ -14,9 +14,9 @@ module.exports = function (app) {
 
 //login logic
     app.get('/login', require('./login').get);
-    app.get('/registreerimine', require('./registreerimine').get);
+//    app.get('/registreerimine', require('./registreerimine').get);
     app.get('/edukalt', require('./registreerimine').edukalt);
-    app.post('/registreerimine', require('./registreerimine').post);
+//    app.post('/registreerimine', require('./registreerimine').post);
 
     app.post('/login', require('./login').post);
     // logout logic
@@ -31,10 +31,13 @@ module.exports = function (app) {
     app.get('/raama/:documentType', checkAuth, require('./raama').get); // module raamatupidamine
     app.get('/raama/:documentType/:id', checkAuth, require('./raama/document').get); // module raamatupidamine
 
-    app.get('/admin', require('./admin').get); // module admin
-    app.get('/admin/:documentType', checkAuth, require('./admin').get); // module raamatupidamine
-    app.get('/admin/:documentType/:id', checkAuth, require('./admin/document').get); // module raamatupidamine
+/*
+        app.get('/admin', require('./admin').get); // module admin
+        app.get('/admin/:documentType', checkAuth, require('./admin').get); // module raamatupidamine
+        app.get('/admin/:documentType/:id', checkAuth, require('./admin/document').get); // module raamatupidamine
+    */
 
+/*
     app.get('/juht', require('./juht').get); // module raamatupidamine
     app.get('/juht/:documentType', checkAuth, require('./juht').get); // module raamatupidamine
     app.get('/juht/:documentType/:id', checkAuth, require('./juht/document').get); // module raamatupidamine
@@ -42,6 +45,7 @@ module.exports = function (app) {
     app.get('/kasutaja', require('./kasutaja').get); // module raamatupidamine
     app.get('/kasutaja/:documentType', checkAuth, require('./kasutaja').get); // module raamatupidamine
     app.get('/kasutaja/:documentType/:id', checkAuth, require('./kasutaja/document').get); // module raamatupidamine
+*/
 
     app.post('/redirect/:link/', require('./redirect').get); //checkAuth,
 

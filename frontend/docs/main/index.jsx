@@ -15,6 +15,7 @@ const PictureComponent = require('./picture-component.jsx');
 const UserApplicationsComponent = require('./userApplications-component.jsx');
 const DealsComponent = require('./dealsRegister-component.jsx');
 const AuthorsComponent = require('./authorsRegister-component.jsx');
+const ToolbarContainer = require('./../../components/toolbar-container/toolbar-container.jsx');
 
 const FilterComponent = require('./filter-component.jsx');
 
@@ -47,6 +48,7 @@ class Register extends React.PureComponent {
         this.data = [];
         this.state = {
             warning: null,
+            warningStyle: null,
             initLoad: false,
             editDocument: false,
             pictureId: null,
@@ -99,9 +101,8 @@ class Register extends React.PureComponent {
 
     render() {
         const _style = Object.assign({}, styles, this.props.style ? this.props.style : {});
-        const warningStyle = null;//this.state.warningType && styles[this.state.warningType] ? styles[this.state.warningType] : null;
+        const warningStyle = this.state.warningStyle && styles[this.state.warningStyle] ? styles[this.state.warningStyle] : null;
 
-        console.log('index render', this.state)
         return (
             <div style={_style.doc}>
                 <Menu params={btnParams}
@@ -160,7 +161,6 @@ class Register extends React.PureComponent {
      * @param docId
      */
     btnClickEventHandler(event, docId) {
-        console.log('index btnClickEventHandler', event, docId, this.state.activeComponent)
         switch (event) {
             case 'btnAdd':
                 // новая картинка
@@ -270,7 +270,7 @@ class Register extends React.PureComponent {
      * @returns {*|Promise<AxiosResponse<unknown> | never>}
      */
     fetchData(url) {
-
+        this.setState({warning: 'Data is loading...', warningStyle: 'info'})
         let URL = `/main/data/`;
         if (this.state.activeComponent !== 'pictures') {
             URL = `/main/${this.state.activeComponent.toLowerCase()}/`;
@@ -290,6 +290,7 @@ class Register extends React.PureComponent {
             fetchData['fetchDataPost'](URL, params).then(response => {
                 // error handling
                 if (response.status === 200) {
+                    this.setState({warning: 'Data loaded successfuly', warningStyle: 'ok'})
                     let store = this.props.store;
                     // сохраним данные в сторе
                     switch (this.state.activeComponent) {
@@ -312,16 +313,17 @@ class Register extends React.PureComponent {
                         default:
 // наверное picture
                     }
-                    this.forceUpdate()
+                    this.forceUpdate();
                     resolved(response.data);
                 } else {
+                    this.setState({warning: 'Data loading error', warningStyle: 'error'})
                     console.error('status !== 200')
                     return rejected();
                 }
 
             }).catch((error) => {
 //                let state = this.props.store.getState()
-                console.error('got fetch error', error,  URL, params);
+                console.error('got fetch error', error, URL, params);
                 // Something happened in setting up the request that triggered an Error
                 return rejected(error);
 

@@ -33,7 +33,8 @@ module.exports = {
         flexDirection: 'column',
     },
     logUpButton: {
-        wiodth: 'auto'
+        wiodth: 'auto',
+        height: '30px'
     },
 
 

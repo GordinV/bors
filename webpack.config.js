@@ -17,11 +17,7 @@ module.exports = {
 //    context: __dirname + '/frontend',
     entry: {
         raama: './frontend/raama.js',
-        admin: './frontend/admin.js',
-        kasutaja: './frontend/kasutaja.js',
-        juht: './frontend/juht.js',
         main: './frontend/main.js',
-
     },
     output: {
         path: __dirname + '/public/javascripts',
@@ -51,8 +47,8 @@ module.exports = {
         new webpack.DefinePlugin({NODE_ENV: JSON.stringify(NODE_ENV)}),
         new webpack.optimize.CommonsChunkPlugin({
             name: "common",
-            chunks: ['raama','admin','kasutaja','juht','main'], // список модулей для выявления общих модулей
-            minChunks: 3
+            chunks: ['raama','main'], // список модулей для выявления общих модулей
+            minChunks: 2
         })
     ],
     module: {

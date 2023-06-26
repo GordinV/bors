@@ -107,7 +107,6 @@ class AuthorsRegisterComponent extends React.PureComponent {
                     </tr>
                     </tbody>
                     {data.map(row => {
-                        console.log('row', row)
                         return (
                             <tr>
                                 <td style={styles.grid.mainTable.td}>{row.login}</td>
@@ -139,7 +138,6 @@ class AuthorsRegisterComponent extends React.PureComponent {
     }
 
     btnClickHandler(event, authorId) {
-            console.log('btnClickHandler', event, authorId )
             this.props.store.dispatch({type: 'pictureId', pictureId: authorId});
             switch (event) {
                 case 'btnAdd':

@@ -1,9 +1,6 @@
 module.exports = {
     raama: '/raama',
     taotlus_login: '/ou/taotlus_login',
-    admin: '/admin',
-    kasutaja: '/kasutaja',
-    juht: '/juht',
     asutused:'/libs/asutused',
     kontod:'/libs/kontod',
     tunnus:'/libs/tunnus',

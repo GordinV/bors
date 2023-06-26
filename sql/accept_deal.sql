@@ -52,8 +52,13 @@ BEGIN
     FROM bors.deals d
              INNER JOIN bors.pictures p ON d.picture_id = p.id
              INNER JOIN libs.asutus a ON a.id = d.asutus_id
+    WHERE d.id = doc_id
+      AND d.invoice_id IS NULL;
 
-    WHERE d.id = doc_id;
+    IF v_deal.asutusid IS NULL
+    THEN
+        RAISE EXCEPTION 'No deal found or deal was accepted';
+    END IF;
 
     -- формируем строку счтеа
     json_invoice_rea =
@@ -72,13 +77,15 @@ BEGIN
                                    current_date + 15         AS tahtaeg,
                                    v_deal.asutusid           AS asutusid,
                                    l_aa                      AS aa,
-                                   '' as lisa,
+                                   ''                        AS lisa,
                                    json_invoice_rea          AS "gridData") row);
 
     -- подготавливаем параметры для создания счета
     SELECT row_to_json(row)
     INTO json_object
     FROM (SELECT 0 AS id, l_json_invoice AS data) row;
+
+    RAISE NOTICE 'params %, v_deal %', json_object, v_deal;
 
     SELECT docs.sp_salvesta_arv(json_object :: JSON, user_id, l_rekv_id) INTO l_invoice_id;
 
@@ -109,6 +116,6 @@ GRANT EXECUTE ON FUNCTION bors.accept_deal(INTEGER, INTEGER) TO PUBLIC;
 
 
 /*
-select  bors.accept_deal(22, 1)
+select  bors.accept_deal(2, 1)
  */
 

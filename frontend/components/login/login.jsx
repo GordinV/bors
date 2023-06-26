@@ -28,6 +28,7 @@ class Login extends React.PureComponent {
     render() {
         return (
             <ModalPage show={this.state.show}
+                       modalPageName={'Login'}
                        modalPageBtnClick={this.onClickHandled}
                        modalPageBtnClick={this.onClickHandled}
             >
@@ -61,7 +62,6 @@ class Login extends React.PureComponent {
                                value={this.state.password || ''}
                         />
 
-
                     </div>
                 </div>
             </ModalPage>
@@ -72,7 +72,6 @@ class Login extends React.PureComponent {
      * вернет компонет для регистрации пользователем
      */
     logUp(event) {
-        console.log('logUp', event)
         this.setState({isShowLogUp: !this.state.isShowLogUp})
     }
 

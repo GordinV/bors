@@ -52,6 +52,12 @@ export default function appReducer(state = initialState, action) {
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
         case 'user': {
+            if (action.user && action.user.id) {
+                // логин выполнен
+                localStorage.setItem('user',JSON.stringify(action.user));
+            } else {
+                delete localStorage.user;
+            }
             return {
                 ...state, user: action.user
             }

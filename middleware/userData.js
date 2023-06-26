@@ -1,8 +1,6 @@
 const _ = require('lodash');
 
 const userData = function (req, _uuid) {
-
-
     let uuid = _uuid ? _uuid : req.body.uuid ? req.body.uuid: null;
 
     if (!req.session.users) {
@@ -14,8 +12,6 @@ const userData = function (req, _uuid) {
         // for get
         userIndex = 0;
     }
-
-
 
     const user = Object.assign({
         userId: userIndex > -1 ? req.session.users[userIndex].id : null,

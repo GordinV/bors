@@ -37,6 +37,14 @@ const initialState = {
             is_node: false
         },
         {
+            id: 'ARV',
+            parentid: 'document',
+            kood: 'ARV',
+            name: 'Arved',
+            props: {type: "document", module: ["main"], is_admin: true},
+            is_node: false
+        },
+        {
             id: 'RAAMA',
             parentid: 'module',
             kood: 'RAAMA',

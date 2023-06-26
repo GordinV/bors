@@ -184,6 +184,7 @@ class Documents extends React.Component {
             <div style={_style.doc}>
                 <Menu params={btnParams}
                       ref='menu'
+                      store={this.props.store}
                       history={this.props.history}
                       rekvId={DocContext.userData ? DocContext.userData.asutusId : 0}
                       module={this.props.module}/>
@@ -695,6 +696,17 @@ class Documents extends React.Component {
 // ставим статус
         this.setState({warning: 'Töötan...', warningType: 'notValid'});
 
+        let userId = DocContext.userData.userId ;
+        let userUuid = DocContext.userData.uuid;
+
+        if (this.props.store) {
+            // если передан стор, берем из стора
+            let user = this.props.store.getState().statuses.user;
+            userId = user.id;
+            userUuid = user.uuid;
+
+        }
+
         const params = {
             parameter: this.docTypeId, // параметры
             docTypeId: this.docTypeId, // для согласования с документом
@@ -706,8 +718,8 @@ class Documents extends React.Component {
             filterData: this.filterData,
             lastDocId: null,
             module: this.props.module,
-            userId: DocContext.userData.userId,
-            uuid: DocContext.userData.uuid,
+            userId: userId,
+            uuid: userUuid,
             data: additionalData
         };
 

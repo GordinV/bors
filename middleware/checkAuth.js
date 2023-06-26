@@ -13,6 +13,7 @@ module.exports = function(req, res, next) {
     if (uuid && req.session.users) {
         let users = req.session.users;
         result = _.findIndex(users,{uuid:uuid});
+
         if (result < 0 || !req.session.users.length ) {
             let uuids = req.session.users.map((user) => {
                 return {uuid: user.uuid, ametnik: user.ametnik }

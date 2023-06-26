@@ -1,5 +1,6 @@
 'use strict';
 
+const DocContext = require ('../../doc-context');
 const React = require('react');
 const Documents = require('./../documents/documents.jsx');
 const styles = require('./styles');
@@ -19,9 +20,16 @@ class Register extends React.PureComponent {
     }
 
     render() {
+
+        let user;
+        if (this.props.store) {
+            user = this.props.store.getState().statuses.user;
+            console.log('DocContext.userData', DocContext.userData, user)
+        }
         return <Documents initData={this.props.initData}
                           history={this.props.history ? this.props.history : null}
                           module={this.props.module}
+                          store={this.props.store}
                           ref='register'
                           docTypeId={DOC_TYPE_ID}
                           style={styles}

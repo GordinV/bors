@@ -34,11 +34,13 @@ class Documents extends React.PureComponent {
     }
 
     render() {
-        let DOC_TYPE_ID = this.props.module == 'kasutaja' ? 'ISIKU_ARV' : 'ARV';
+        let DOC_TYPE_ID = 'ARV';
+        console.log('arv render props', this.props);
 
         return (
             <div>
                 <DocumentRegister initData={this.props.initData}
+                                  store={this.props.store}
                                   history={this.props.history ? this.props.history : null}
                                   module={this.props.module}
                                   ref='register'
@@ -69,7 +71,7 @@ class Documents extends React.PureComponent {
     }
 
     renderer(self) {
-        let DOC_TYPE_ID = this.props.module == 'kasutaja' ? 'ISIKU_ARV' : 'ARV';
+        let DOC_TYPE_ID = 'ARV';
 
         let summa = self.gridData ? getSum(self.gridData, 'summa') : 0;
         let jaak = self.gridData ? getSum(self.gridData, 'jaak') : 0;

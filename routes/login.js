@@ -123,15 +123,11 @@ exports.post = function (req, res, next) {
             } else {
                 // open main page
                 req.app.locals.user = user;
-                //@todo привести в норму
-                let role = '';
-                 role = user.roles.is_kasutaja ? 'kasutaja': role;
-                 role = user.roles.is_raama ? 'raama': role;
-                 role = user.roles.is_admin ? 'admin': role;
-                 role = user.roles.is_juht ? 'juht': role;
 
-                 console.log('role', role, user.roles)
+                DocContext.pageName = 'Raamatupidamine'
+                res.redirect('/raama');
 
+/*
                 switch(role) {
                     case 'kasutaja':
                         DocContext.pageName = 'Kasutaja'
@@ -153,6 +149,7 @@ exports.post = function (req, res, next) {
                         res.statusCode = 403;
                         res.redirect('/login');
                 }
+*/
 
 
             }

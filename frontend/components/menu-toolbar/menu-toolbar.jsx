@@ -26,20 +26,25 @@ const checkRights = require('./../../../libs/checkRights');
 class MenuToolBar extends React.Component {
     constructor(props) {
         super(props);
+        let user = {
+            id: 0,
+            kasutaja: null,
+            ametnik: null
+        }
+
+        if (props.store) {
+            user = props.store.getState().statuses.user;
+        }
 
         this.state = {
-            logedIn: false,
+            logedIn: !!user.id,
             showLogin: false,
             startMenuValue: 'parentid',
             showStartMenu: false,
             isOpenRekvPage: false,
             rekvId: props.rekvId ? props.rekvId : 1,
             keel: 'EST',
-            user: {
-                id: 0,
-                kasutaja: null,
-                ametnik: null
-            }
+            user: user
         };
 
 
@@ -126,6 +131,7 @@ class MenuToolBar extends React.Component {
                     <SearchText
                         store={this.props.store}
                     />
+{/*
                     <select ref="select"
                             style={style['selectKeel']}
                             value={this.state.keel || 'Est'}
@@ -138,6 +144,7 @@ class MenuToolBar extends React.Component {
                         <option value={'ING'} key={'ING'}
                                 ref={'ING'}> {'ING'} </option>
                     </select>
+*/}
                     {/*
                     <BtnInfo ref='btnInfo'
                              value={'Juhend'}
@@ -215,7 +222,6 @@ class MenuToolBar extends React.Component {
 
     btnAddClick() {
         // обработчик для кнопки Start
-console.log('dbtAdd clicked', this.props)
         //this.setState({showPicture: !this.state.showPicture});
         // сигнал не перегрузку основного окна
         if (this.props.btnClickEventHandler) {
@@ -233,7 +239,7 @@ console.log('dbtAdd clicked', this.props)
             // new action
             let store = this.props.store;
             if (value == 'RAAMA') {
-                window.open(`/RAAMA/login`);
+                window.open(`/RAAMA`);
             } else {
                 store.dispatch({type: 'activePageComponent', activePageComponent: value});
             }

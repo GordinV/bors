@@ -3,7 +3,6 @@
 //import authors from "../../reducers/authors";
 
 const React = require('react');
-const Documents = require('./../documents/documents.jsx');
 const styles = require('./styles');
 
 const fetchData = require('./../../../libs/fetchData');

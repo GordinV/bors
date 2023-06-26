@@ -95,12 +95,11 @@ class Logup extends React.PureComponent {
     }
 
     onClickHandled(event) {
-        console.log('logup btn click')
         if (event == 'Ok') {
             // отправляем на сервер на контроль
             this.fecthData()
         } else {
-            this.setState({wshow: !this.state.sho});
+            this.setState({show: !this.state.show});
         }
     }
 

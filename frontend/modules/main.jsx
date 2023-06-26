@@ -24,7 +24,6 @@ class App extends React.Component {
 
     render() {
         let store = this.props.store;
-        console.log('props', this.props)
         return (
             <StyleRoot>
                 <Route exact path="/main"

@@ -122,10 +122,7 @@ class DealsRegisterComponent extends React.PureComponent {
                                     >
                                         <img ref='image' src={styles.icons['delete']}/>
                                     </button>) : null}
-
                                 </td>
-
-
                             </tr>
                         )
                     })}
@@ -144,7 +141,6 @@ class DealsRegisterComponent extends React.PureComponent {
         let data = this.props.store.getState().deals.deals;
         let row = data[rowIndex];
 
-        console.log('btnClick', event, row);
         this.fetchData(event, row.id)
     }
 

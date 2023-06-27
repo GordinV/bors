@@ -34,12 +34,17 @@ module.exports = {
     },
 
     frame: {
-        width: '50%'
+        width: '100%'
     },
     docRow: {
         display: 'flex',
         flexDirection: 'row',
         margin: '5px'
+    },
+    pictureFrame: {
+        border: '1px solid lightgray',
+        borderRadius: '10px',
+        padding: '5px'
     },
     label: {
         width: '30%'

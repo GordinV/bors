@@ -41,7 +41,7 @@ const initialState = {
             parentid: 'document',
             kood: 'ARV',
             name: 'Arved',
-            props: {type: "document", module: ["main"], is_admin: true},
+            props: {type: "document", module: ["raama"], is_admin: true},
             is_node: false
         },
         {
@@ -49,6 +49,14 @@ const initialState = {
             parentid: 'module',
             kood: 'RAAMA',
             name: 'Accounting',
+            props: {type: "module", module: ["main"], is_admin: true},
+            is_node: false
+        },
+        {
+            id: 'MAIN',
+            parentid: 'module',
+            kood: 'MAIN',
+            name: 'Pictures',
             props: {type: "module", module: ["raama"], is_admin: true},
             is_node: false
         },

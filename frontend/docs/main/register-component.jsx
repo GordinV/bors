@@ -53,16 +53,19 @@ class RegisterComponent extends React.PureComponent {
         }
 
         let logedIn = false;
+        let user;
+        let isAdmin = false;
         if (this.props.store) {
-            let user = this.props.store.getState().statuses.user;
+            user = this.props.store.getState().statuses.user;
+            isAdmin = user.is_admin;
             logedIn = user && user.id ? true : false;
+
         }
 
         if (pictures && pictures.length) {
             Component = pictures.map((picture, idx) => {
                 return (
-                    <div style={styles.docRow} key={picture.id}>
-
+                    <div style={Object.assign({},styles.docRow, styles.pictureFrame)} key={picture.id}>
                         <div style={styles.docColumn}>
                             <div style={styles.frame}>
                                 <img
@@ -76,7 +79,7 @@ class RegisterComponent extends React.PureComponent {
                         </div>
                         <div style={styles.docColumn}>
                             <div style={styles.docRow} key={picture.id}>
-                                {logedIn  ?
+                                {logedIn ?
                                     (<button
                                         style={styles.btnEdit}
                                         onClick={() => this.btnClickHandler('edit', idx)}
@@ -86,7 +89,7 @@ class RegisterComponent extends React.PureComponent {
                                     </button>) : null
                                 }
 
-                                {logedIn && picture.status === 1 ?
+                                {logedIn && picture.status === 1 && !isAdmin ?
                                     (<button
                                         style={styles.btnSale}
                                         onClick={() => this.btnClickHandler('sale', idx)}

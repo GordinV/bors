@@ -1,6 +1,6 @@
 'use strict';
 
-const DocContext = require ('../../doc-context');
+const DocContext = require('../../doc-context');
 const React = require('react');
 const Documents = require('./../documents/documents.jsx');
 const styles = require('./styles');
@@ -19,12 +19,18 @@ class Register extends React.PureComponent {
 
     }
 
+    componentDidMount() {
+        if (this.props.store) {
+            // сохраним модуль в сторе
+            this.props.store.dispatch({type: 'module', payload: 'raama'});
+        }
+    }
+
     render() {
 
         let user;
         if (this.props.store) {
             user = this.props.store.getState().statuses.user;
-            console.log('DocContext.userData', DocContext.userData, user)
         }
         return <Documents initData={this.props.initData}
                           history={this.props.history ? this.props.history : null}

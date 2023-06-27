@@ -131,7 +131,7 @@ class MenuToolBar extends React.Component {
                     <SearchText
                         store={this.props.store}
                     />
-{/*
+                    {/*
                     <select ref="select"
                             style={style['selectKeel']}
                             value={this.state.keel || 'Est'}
@@ -185,29 +185,11 @@ class MenuToolBar extends React.Component {
 
     renderStartMenu() {
         let component = null;
-        let data = [];
-        let user = {};
-        if (this.props.store) {
-            user = this.props.store.getState().statuses.user;
-            data = this.props.store.getState().menu.menu;
-
-            if (!user || !user.is_admin) {
-                data = data.filter(row => {
-                    // если нет пользователя, или он не адми, грузим только доступные
-                    if (!row.props || !row.props.is_admin) {
-                        return row;
-                    } else {
-                        return null;
-                    }
-                });
-            }
-        }
 
         if (this.state.showStartMenu) {
             component = <StartMenu ref='startMenu'
                                    store={this.props.store}
                                    value={this.state.startMenuValue}
-                                   data={data}
                                    clickHandler={this.startMenuClickHandler}/>
         }
         return component
@@ -238,12 +220,28 @@ class MenuToolBar extends React.Component {
         if (this.props.store) {
             // new action
             let store = this.props.store;
-            if (value == 'RAAMA') {
-                window.open(`/RAAMA`);
-            } else {
-                store.dispatch({type: 'activePageComponent', activePageComponent: value});
+            let module = store.getState().statuses.module;
+
+            switch (value) {
+                case 'RAAMA': {
+                    window.open(`/RAAMA`);
+                    break;
+                }
+                case 'MAIN': {
+                    window.open(`/MAIN`);
+                    break;
+                }
+                default:
+                    store.dispatch({type: 'activePageComponent', activePageComponent: value});
             }
 
+            // отработаем "старое меню" бухгалтерского блока
+            if (module === 'raama' && this.props.history) {
+                return this.props.history.push({
+                    pathname: `/${module}/${value}`,
+                    state: {module: module}
+                });
+            }
 
         } else {
             let docType = DocContext['menu'].find(row => row.kood === value);

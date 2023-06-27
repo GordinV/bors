@@ -73,6 +73,7 @@ BEGIN
                       FROM (SELECT coalesce(l_invoice_id, 0) AS id,
                                    l_number                  AS number,
                                    0                         AS liik,
+                                   2                         AS doc_type_id,
                                    current_date              AS kpv,
                                    current_date + 15         AS tahtaeg,
                                    v_deal.asutusid           AS asutusid,
@@ -84,8 +85,6 @@ BEGIN
     SELECT row_to_json(row)
     INTO json_object
     FROM (SELECT 0 AS id, l_json_invoice AS data) row;
-
-    RAISE NOTICE 'params %, v_deal %', json_object, v_deal;
 
     SELECT docs.sp_salvesta_arv(json_object :: JSON, user_id, l_rekv_id) INTO l_invoice_id;
 

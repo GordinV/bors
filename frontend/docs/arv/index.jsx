@@ -35,7 +35,6 @@ class Documents extends React.PureComponent {
 
     render() {
         let DOC_TYPE_ID = 'ARV';
-        console.log('arv render props', this.props);
 
         return (
             <div>

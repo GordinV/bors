@@ -11,6 +11,7 @@ const initialState = {
     activePageComponent: 'pictures',
     reloadActivePageComponent: false,
     isPictureShow: false,
+    module: 'main',
     pictureId: null,
     menu: [
         {id: 'kasutaja', parentid: 0, kood: 'kasutaja', name: 'kasutaja', props: null},
@@ -80,6 +81,11 @@ export default function appReducer(state = initialState, action) {
         case 'pictureId': {
             return {
                 ...state, pictureId: action.pictureId
+            }
+        }
+        case 'module': {
+            return {
+                ...state, module: action.payload
             }
         }
 

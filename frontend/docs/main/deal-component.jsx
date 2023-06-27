@@ -63,8 +63,6 @@ class Deal extends React.PureComponent {
         if (!picture || !picture.length) {
             return;
         }
-
-        console.log('deal comp did mount', picture)
         this.setState({
             kood: picture[0].kood,
             description: picture[0].description,

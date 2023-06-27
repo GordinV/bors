@@ -10,6 +10,7 @@ module.exports = function (app) {
     app.get('/', require('./login').get);
 */
     app.get('/', require('./main').get);
+    app.get('/main', require('./main').get);
     app.post('/', require('./login').post);
 
 //login logic

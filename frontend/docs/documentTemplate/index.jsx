@@ -133,6 +133,7 @@ class DocumentTemplate extends React.Component {
             <div>
                 <Menu params={btnParams}
                       ref="menu"
+                      store={this.props.store}
                       history={this.props.history}
                       rekvId={DocContext.userData ? DocContext.userData.asutusId : 0}
                       module={this.props.module ? this.props.module: DocContext.module}/>

@@ -61,8 +61,6 @@ class Artist extends React.PureComponent {
         if (!author || !author.length) {
             return;
         }
-
-        console.log('props.id', this.props.id)
         this.setState({
             login: author[0].login,
             code: author[0].code,
@@ -187,7 +185,7 @@ class Artist extends React.PureComponent {
         let state = {};
         state[fieldName] = fieldValue;
         state = {...this.state, state};
-        console.log('fieldName', fieldValue, state)
+
         switch (fieldName) {
             case 'code':
                 this.setState({code: fieldValue, isEditeMode: true});

@@ -1,5 +1,7 @@
 'use strict';
 
+import DocContext from "./doc-context";
+
 const ReactDOM = require('react-dom');
 const {BrowserRouter} = require('react-router-dom');
 import {createStore, applyMiddleware } from 'redux';
@@ -11,10 +13,12 @@ import thunk from 'redux-thunk';
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 const Doc = require('../frontend/modules/main.jsx');
-//import store from './store';
 
-// сохраним базовые данные в памети
-
+// если пользователь залогинился в другом модуле, берем его данные
+if (localStorage.getItem('user')) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    store.dispatch({type: 'user', user: user});
+}
 
 ReactDOM.hydrate(
     <Provider store={store}>

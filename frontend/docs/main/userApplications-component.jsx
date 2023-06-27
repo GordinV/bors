@@ -116,10 +116,7 @@ class UserApplicationsComponent extends React.PureComponent {
                                     >
                                         <img ref='image' src={styles.icons['delete']}/>
                                     </button>) : null}
-
                                 </td>
-
-
                             </tr>
                         )
                     })}

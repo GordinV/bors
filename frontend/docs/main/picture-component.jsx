@@ -17,7 +17,7 @@ class Picture extends React.PureComponent {
             selectedFileType: '',
             uploadedImage: null,
             fileName: '',
-            show: true,
+            pictureShow: true,
             id: this.props.id,
             lastId: 0,
             kood: this.props.kood,
@@ -39,7 +39,7 @@ class Picture extends React.PureComponent {
                 let authors = store.getState().authors.authors;
 
                 this.setState({
-                    show: isPictureShow,
+                    pictureShow: isPictureShow,
                     authors: authors
                 }, () => {
                     this.forceUpdate();
@@ -94,15 +94,12 @@ class Picture extends React.PureComponent {
                 author_id: this.state.author_id,
                 file: this.state.selectedFile
             }];
-//            return <div>Data is loading</div>
         }
 
         let selectedFile = picture && picture.length && picture[0].id ?  `data:image/jpeg;base64,/${picture[0].file}` : this.state.uploadedImage;
-        console.log('render', this.state, selectedFile)
-
-
         return (
-            <ModalPage show={this.state.show}
+            <ModalPage show={this.state.pictureShow}
+                       modalPageName={'Edit picture'}
                        modalPageBtnClick={this.onClickHandled}
             >
                 {!pictureId ? (<input type="file"
@@ -204,8 +201,8 @@ class Picture extends React.PureComponent {
                 this.fecthData()
             }
         }
-
-        this.setState({show: !this.state.show});
+        this.props.store.dispatch({type: 'isPictureShow', isPictureShow: false});
+        this.setState({pictureShow: !this.state.pictureShow});
     }
 
     fecthData() {
@@ -245,7 +242,7 @@ class Picture extends React.PureComponent {
 
 Picture.propTypes = {
     disabled: PropTypes.bool,
-    show: PropTypes.bool
+    pictureShow: PropTypes.bool
 };
 
 

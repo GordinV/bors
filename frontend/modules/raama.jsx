@@ -128,9 +128,12 @@ class App extends React.Component {
                                                            initData={this.props.initData}
                                                            module={MODULE}/>}/>
                 <Route exact path="/raama/arv/:docId"
-                       component={ArveDocument}
-                       store={store}
-                       module={MODULE}/>
+                       render={(props) => <ArveDocument  {...props}
+                                                         module={MODULE}
+                                                         store={store}
+                                                         history={props.history}/>}
+                />
+
                 <Route exact path="/raama/arv"
                        render={(props) => <ArveRegister history={props.history}
                                                         store={store}

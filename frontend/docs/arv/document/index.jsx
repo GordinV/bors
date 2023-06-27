@@ -46,6 +46,7 @@ class Arve extends React.PureComponent {
 
     render() {
         return <DocumentTemplate docId={this.state.docId}
+                                 store={this.props.store}
                                  ref='document'
                                  history={this.props.history}
                                  docTypeId='ARV'

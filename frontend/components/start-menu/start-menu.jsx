@@ -33,6 +33,22 @@ class StartMenu extends React.PureComponent {
         if (this.props.store) {
             let data = this.props.store.getState().menu.menu;
             let user = this.props.store.getState().statuses.user;
+            let module = this.props.store.getState().statuses.module;
+
+            if (module) {
+                data = data.filter(menu => {
+                    // оставим только меню модуля
+                    // props: {type: "document", module: ["main"]
+                    if (!menu.props || (menu.props.module && menu.props.module.includes(module))) {
+                        // общие
+                        return menu;
+                    } else {
+                        return null;
+
+                    }
+                });
+            }
+
             if (!user || !user.is_admin) {
                 data = data.filter(row => {
                     // если нет пользователя, или он не адми, грузим только доступные
@@ -81,7 +97,6 @@ class StartMenu extends React.PureComponent {
      * Выполнит запросы
      */
     fetchData(props) {
-        console.log('statr fetch')
         let module = DocContext.module ? DocContext.module : 'main';
         let url = URL + `/${module}`;
         let params = {};

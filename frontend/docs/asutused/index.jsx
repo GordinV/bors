@@ -22,6 +22,7 @@ class Asutused extends React.PureComponent {
     render() {
         return <Documents
             history={this.props.history ? this.props.history : null}
+            store={this.props.store}
             module={this.props.module}
             ref='register'
             docTypeId={DOC_TYPE_ID}

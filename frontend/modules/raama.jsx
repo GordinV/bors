@@ -10,8 +10,6 @@ const StartMenu = require('./../components/start-menu/start-menu.jsx'),
     RaamaRegister = require('./../docs/raama/index.jsx'),
     AsutusRegister = require('./../docs/asutused/index.jsx'),
     AsutusDocument = require('../docs/asutused/document/index.jsx'),
-    ObjectDocument = require('../docs/objekt/document/index.jsx'),
-    ObjectRegister = require('./../docs/objekt/index.jsx'),
     KontoDocument = require('../docs/kontod/document/index.jsx'),
     KontoRegister = require('./../docs/kontod/index.jsx'),
     TunnusDocument = require('../docs/tunnus/document/index.jsx'),
@@ -20,7 +18,6 @@ const StartMenu = require('./../components/start-menu/start-menu.jsx'),
     ProjektRegister = require('./../docs/project/index.jsx'),
     NomDocument = require('../docs/nomenclature/document/index.jsx'),
     NomRegister = require('./../docs/nomenclature/index.jsx'),
-    LepingDocument = require('../docs/leping/document/index.jsx'),
     ArveRegister = require('./../docs/arv/index.jsx'),
     ArveDocument = require('../docs/arv/document/index.jsx'),
     JournalRegister = require('./../docs/journal/index.jsx'),
@@ -40,9 +37,6 @@ const StartMenu = require('./../components/start-menu/start-menu.jsx'),
     KontoAndmik = require('./../docs/kontoandmik/index.jsx'),
     ArvedKoodiJargi = require('./../docs/arved_koodi_jargi/index.jsx'),
     ArveKokkuvote = require('./../docs/arve_kokkuvote/index.jsx'),
-    LepingRegister = require('./../docs/leping/index.jsx'),
-    MooduDocument = require('../docs/moodu/document/index.jsx'),
-    MooduRegister = require('./../docs/moodu/index.jsx'),
     RekvRegister = require('./../docs/rekv/index.jsx'),
     RekvDocument = require('./../docs/rekv/document/index.jsx');
 
@@ -75,19 +69,19 @@ class App extends React.Component {
                                history={props.history}
                                initData={this.props.initData}
                                module={MODULE}/>}/>
-                <Route exact path="/raama/asutused/:docId" component={AsutusDocument}/>
+                <Route exact path="/raama/asutused/:docId"
+                       render={(props) => <AsutusDocument  {...props}
+                                                        module={MODULE}
+                                                        store={store}
+                                                        history={props.history}/>}
+                />
+
                 <Route exact path="/raama/asutused"
                        render={(props) => <AsutusRegister history={props.history}
                                                           store={store}
                                                           initData={this.props.initData}
                                                           module={MODULE}/>}
                 />
-                <Route exact path="/raama/objekt/:docId" component={ObjectDocument}/>
-                <Route exact path="/raama/objekt"
-                       render={(props) => <ObjectRegister history={props.history}
-                                                          store={store}
-                                                          initData={this.props.initData}
-                                                          module={MODULE}/>}/>
 
                 {/*
 Признак проводки, справочник
@@ -158,11 +152,14 @@ class App extends React.Component {
                                                           initData={this.props.initData}
                                                           module={MODULE}/>}/>
                 <Route exact path="/raama/smk/:docId"
-                       component={SmkDocument}
-                       store={store}
-                       module={MODULE}/>
+                       render={(props) => <SmkDocument  {...props}
+                                                         module={MODULE}
+                                                         store={store}
+                                                         history={props.history}/>}
+                />
                 <Route exact path="/raama/smk"
                        render={(props) => <SmkRegister history={props.history}
+                                                       store={store}
                                                        initData={this.props.initData}
                                                        module={MODULE}/>}/>
                 <Route exact path="/raama/pank_vv/:docId"
@@ -184,26 +181,14 @@ class App extends React.Component {
                        render={(props) => <VmkRegister history={props.history}
                                                        initData={this.props.initData}
                                                        module={MODULE}/>}/>
-                <Route exact path="/raama/leping/:docId"
-                       component={LepingDocument}
-                       store={store}
-                       module={MODULE}/>
-                <Route exact path="/raama/leping"
-                       render={(props) => <LepingRegister history={props.history}
-                                                          store={store}
-                                                          initData={this.props.initData}
-                                                          module={MODULE}/>}/>
-                <Route exact path="/raama/andmed/:docId"
-                       component={MooduDocument}
-                       store={store}
-                       module={MODULE}/>
-                <Route exact path="/raama/andmed"
-                       render={(props) => <MooduRegister history={props.history}
-                                                         store={store}
-                                                         initData={this.props.initData}
-                                                         module={MODULE}/>}/>
 
-                <Route exact path="/raama/nomenclature/:docId" component={NomDocument}/>
+                <Route exact path="/raama/nomenclature/:docId"
+                       render={(props) => <NomDocument  {...props}
+                                                        module={MODULE}
+                                                        store={store}
+                                                        history={props.history}/>}
+                />
+
                 <Route exact path="/raama/nomenclature"
                        render={(props) => <NomRegister history={props.history}
                                                        store={store}

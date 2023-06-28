@@ -44,7 +44,8 @@ class MenuToolBar extends React.Component {
             isOpenRekvPage: false,
             rekvId: props.rekvId ? props.rekvId : 1,
             keel: 'EST',
-            user: user
+            user: user,
+            module: 'main'
         };
 
 
@@ -68,11 +69,19 @@ class MenuToolBar extends React.Component {
                 // with new data.
 
                 let user = store.getState().statuses.user;
-                this.setState({
-                    user: user,
-                    logedIn: (user.id ? !!user.id : false)
-                });
+                if (this.state.user.id !== user.id) {
+                    this.setState({
+                        user: user,
+                        logedIn: (user.id ? !!user.id : false)
+                    });
+                }
 
+                let module = store.getState().statuses.module;
+                if (this.state.module !== module) {
+                    this.setState({
+                        module: module
+                    });
+                }
             })
         }
     }
@@ -128,9 +137,10 @@ class MenuToolBar extends React.Component {
                               onClick={this.btnLoginClick}
                               show={toolbarParams['btnLogin'].show}
                               disabled={toolbarParams['btnLogin'].disabled}/>
-                    <SearchText
-                        store={this.props.store}
-                    />
+                    {this.state.module.toUpperCase() === 'MAIN' ?
+                        (<SearchText
+                            store={this.props.store}
+                        />) : null}
                     {/*
                     <select ref="select"
                             style={style['selectKeel']}
@@ -197,6 +207,7 @@ class MenuToolBar extends React.Component {
 
     btnStartClick() {
         // обработчик для кнопки Start
+        console.log('btnStar clicked')
 
         this.setState({showStartMenu: !this.state.showStartMenu});
 
@@ -267,8 +278,14 @@ class MenuToolBar extends React.Component {
         } else {
             // удалим из стора пользователя
             let store = this.props.store;
+            let module = store.getState().statuses.module;
             store.dispatch({type: 'user', user: {}});
             this.setState({logedIn: false});
+            document.location.href = '/logout'
+            if (module !== 'main') {
+                // закроем окно
+                window.close();
+            }
         }
     }
 

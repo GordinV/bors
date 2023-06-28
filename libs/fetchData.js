@@ -17,9 +17,7 @@ module.exports = {
             'Content-Type': 'multipart/form-data'
         }
 
-        console.log('fetch', url, params)
         return axios.post(url, params, headers).then((res, err) => {
-            console.log('fetch lib res', res, err )
             return res;
         })
             .catch(error => {
@@ -28,7 +26,7 @@ module.exports = {
             })
     },
     fetchDataPut(url, params) {
-        return axios.put(url, params,headers)
+        return axios.put(url, params )
             .catch(error => {
                 console.error('fetchData error', error.response.status, error);
                 return ({result: 'error', status: error.response.status});

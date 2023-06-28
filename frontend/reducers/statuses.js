@@ -49,13 +49,15 @@ const initialState = {
 
 // Use the initialState as a default value
 export default function appReducer(state = initialState, action) {
-    console.log('reducer', action)
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
         case 'user': {
             if (action.user && action.user.id) {
                 // логин выполнен
-                localStorage.setItem('user',JSON.stringify(action.user));
+                // дополним датой сохранения
+                let today= new Date();
+                let user = Object.assign({}, action.user, {loadedDate: today});
+                localStorage.setItem('user',JSON.stringify(user));
             } else {
                 delete localStorage.user;
             }

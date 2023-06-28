@@ -45,12 +45,17 @@ class DocToolBar extends React.PureComponent {
             isDocDisabled = this.props.docStatus === 2,
             docId = this.docId;
 
+        let user = {is_raama: false};
+        if (this.props.store) {
+            user = this.props.store.getState().statuses.user;
+        }
+
         // кнопки режима редактирования должны пропасть если редактирование и показывать если разрешено
-        let kas_add = this.props.toolbarParams ? this.props.toolbarParams['btnAdd'].show : true;
+        let kas_add = !!user.is_accounter;
         if (kas_add && isEditMode) {
             kas_add = false;
         }
-        let kas_edit = this.props.toolbarParams ? this.props.toolbarParams['btnEdit'].show : true;
+        let kas_edit = !!user.is_accounter;
         if (kas_edit && isEditMode) {
             kas_edit = false;
         }
@@ -82,6 +87,7 @@ class DocToolBar extends React.PureComponent {
             }
         };
 
+        console.log('toolbarParams',toolbarParams, isEditMode, isDocDisabled, kas_edit, user, this.props)
         return <ToolbarContainer ref='toolbarContainer'>
             <BtnAdd ref='btnAdd'
                     onClick={this.btnAddClick}

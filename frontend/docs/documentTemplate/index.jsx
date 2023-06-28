@@ -136,7 +136,7 @@ class DocumentTemplate extends React.Component {
                       store={this.props.store}
                       history={this.props.history}
                       rekvId={DocContext.userData ? DocContext.userData.asutusId : 0}
-                      module={this.props.module ? this.props.module: DocContext.module}/>
+                      module={this.props.module ? this.props.module : DocContext.module}/>
                 {this.renderDocToolBar()}
                 <Form pages={this.pages}
                       ref="form"
@@ -180,7 +180,7 @@ class DocumentTemplate extends React.Component {
         this.makeBackup();
 
         if (this.props.history) {
-            this.props.history.push(`/${this.props.module ? this.props.module: DocContext.module}/${this.props.docTypeId}/0`);
+            this.props.history.push(`/${this.props.module ? this.props.module : DocContext.module}/${this.props.docTypeId}/0`);
         }
 
         this.setState({docId: 0, edited: true}, () => {
@@ -259,7 +259,7 @@ class DocumentTemplate extends React.Component {
                 queryType: 'id' // ид - документ, where -
             };
 
-            this.props.history.push(`/${this.props.module ? this.props.module: DocContext.module}/e-mail/0`);
+            this.props.history.push(`/${this.props.module ? this.props.module : DocContext.module}/e-mail/0`);
         }
     }
 
@@ -373,7 +373,7 @@ class DocumentTemplate extends React.Component {
 
                     setTimeout(() => {
                         // koostatud uus dok, teeme reload
-                        const current = `/${this.props.module ? this.props.module: DocContext.module}/${this.props.docTypeId}/${this.state.docId}`;
+                        const current = `/${this.props.module ? this.props.module : DocContext.module}/${this.props.docTypeId}/${this.state.docId}`;
                         this.props.history.replace(`/reload`);
                         setTimeout(() => {
                             this.props.history.replace(current);
@@ -389,7 +389,7 @@ class DocumentTemplate extends React.Component {
 
                     setTimeout(() => {
                         // koostatud uus dok, teeme reload
-                        const current = `/${this.props.module ? this.props.module: DocContext.module}/${this.props.docTypeId}/${this.state.docId}`;
+                        const current = `/${this.props.module ? this.props.module : DocContext.module}/${this.props.docTypeId}/${this.state.docId}`;
                         this.props.history.replace(`/reload`);
                         setTimeout(() => {
                             this.props.history.replace(current);
@@ -589,11 +589,11 @@ class DocumentTemplate extends React.Component {
      */
     renderDocToolBar() {
         const toolbar = this.prepareParamsForToolbar();
-        console.log('toolbar',toolbar)
         return (
             <ToolbarContainer ref='toolbarContainer'>
                 <DocToolBar ref='doc-toolbar'
                             docTypeId={this.props.docTypeId}
+                            store={this.props.store}
                             bpm={this.bpm ? this.bpm : []}
                             logs={this.state.logs}
                             docId={this.state.docId}
@@ -619,17 +619,16 @@ class DocumentTemplate extends React.Component {
      * @returns {{btnAdd: {show: boolean, disabled: boolean}, btnEdit: {show: boolean, disabled: boolean}, btnDelete: {show: boolean, disabled: boolean}, btnPrint: {show: boolean, disabled: boolean}}}
      */
     prepareParamsForToolbar() {
-        console.log('this.props.docTypeId',this.props.docTypeId)
-        let docRights = DocRights[this.props.docTypeId] ? DocRights[this.props.docTypeId] : [];
-        let userRoles = DocContext.userData ? DocContext.userData.roles : [];
+        let user = this.props.store.getState().statuses.user;
+        let isRaama = user.is_raama;
 
         return {
             btnAdd: {
-                show: checkRights(userRoles, docRights, 'add'),
+                show: !!isRaama,
                 disabled: false
             },
             btnEdit: {
-                show: checkRights(userRoles, docRights, 'edit'),
+                show: !!isRaama,
                 disabled: false
             },
             btnSave: {
@@ -637,11 +636,11 @@ class DocumentTemplate extends React.Component {
                 disabled: this.state.isDisableSave
             },
             btnDelete: {
-                show: checkRights(userRoles, docRights, 'delete'),
+                show: !!isRaama,
                 disabled: false
             },
             btnPrint: {
-                show: checkRights(userRoles, docRights, 'print'),
+                show: true,
                 disabled: false
             },
             btnStart: {
@@ -670,11 +669,15 @@ class DocumentTemplate extends React.Component {
 
         let url = api ? api : `${URL}/${this.props.docTypeId}/${this.state.docId}`;
         let method = 'fetchDataPost';
+        let user;
+        if (this.props.store) {
+            user = this.props.store.getState().statuses.user;
+        }
         let params = {
             docTypeId: this.props.docTypeId ? this.props.docTypeId : DocContext.docTypeId,
             module: this.props.module ? this.props.module : DocContext.module,
             userId: DocContext.userData.userId,
-            uuid: DocContext.userData.uuid,
+            uuid: user && user.uuid ? user.uuid: DocContext.userData.uuid,
             docId: this.state.docId,
             context: DocContext[api] ? DocContext[api] : null
         };
@@ -684,9 +687,10 @@ class DocumentTemplate extends React.Component {
             method = 'fetchData' + protocol;
             params = Object.assign({}, params, this.docData, api_params ? api_params : {});
         }
-
+console.log('saving', params)
         return new Promise((resolved, rejected) => {
             fetchData[method](url, params).then(response => {
+                console.log('response', response)
                     if (response.status && response.status === 401) {
                         document.location = `/login`;
                     }
@@ -780,7 +784,7 @@ class DocumentTemplate extends React.Component {
             new Date().toISOString().slice(0, 10); //ajutiselt
 
             let params = Object.assign({
-                module: this.props.module ? this.props.module: DocContext.module,
+                module: this.props.module ? this.props.module : DocContext.module,
                 userId: DocContext.userData.id,
                 uuid: DocContext.userData.uuid,
             }, hasSqlWhere ? {
@@ -1080,7 +1084,7 @@ class DocumentTemplate extends React.Component {
     modalPageClick(btnEvent, data) {
         let showModal = false;
 
-        if (btnEvent === 'Ok' || btnEvent === 'OK' ) {
+        if (btnEvent === 'Ok' || btnEvent === 'OK') {
             // ищем по ид строку в данных грида, если нет, то добавим строку
             if (!this.docData.gridData.length || !this.docData.gridData.some(row => row.id === this.gridRowData.id)) {
                 // вставка новой строки
@@ -1129,9 +1133,9 @@ class DocumentTemplate extends React.Component {
         if (btnEvent === 'Ok') {
             // редайрект
             // koostatud uus dok,
-            this.props.history.push(`/${this.props.module ? this.props.module: DocContext.module}/${this.props.docTypeId}/${docId}`);
+            this.props.history.push(`/${this.props.module ? this.props.module : DocContext.module}/${this.props.docTypeId}/${docId}`);
 
-            const current = `/${this.props.module ? this.props.module: DocContext.module}/${this.props.docTypeId}/${docId}`;
+            const current = `/${this.props.module ? this.props.module : DocContext.module}/${this.props.docTypeId}/${docId}`;
             this.props.history.replace(`/reload`);
             setTimeout(() => {
                 this.props.history.replace(current);

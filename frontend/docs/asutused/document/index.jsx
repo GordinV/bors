@@ -32,6 +32,7 @@ class Asutused extends React.PureComponent {
     render() {
         return <DocumentTemplate docId={this.state.docId}
                                  ref='document'
+                                 store={this.props.store}
                                  history={this.props.history}
                                  module={DocContext.module}
                                  docTypeId='ASUTUSED'

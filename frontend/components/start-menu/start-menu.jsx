@@ -74,6 +74,7 @@ class StartMenu extends React.PureComponent {
     }
 
     render() {
+        console.log('start menu render')
         return (
             <div style={styles.container}>
                 <TreeList ref='treeList'
@@ -108,7 +109,6 @@ class StartMenu extends React.PureComponent {
         } else {
             params = {userId: DocContext.userData.userId, uuid: DocContext.userData.uuid};
         }
-        console.log('menu', url, params)
 
         try {
             // will check in cache

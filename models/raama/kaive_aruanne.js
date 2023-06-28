@@ -1,9 +1,9 @@
 module.exports = {
     grid: {
         gridConfiguration: [
+            {id: "id", name: "id", width: "5%", show: false},
             {id: "period", name: "Period", width: "5%", show: false, type: "date", interval: true},
             {id: "nimi", name: "Nimi", width: "15%"},
-            {id: "objekt", name: "Objekt", width: "25%", show: true},
             {id: "alg_saldo", name: "Alg.saldo", width: "10%", type: "number", interval: true},
             {id: "arvestatud", name: "Arvestatud", width: "10%", type: "number", interval: true},
             {id: "laekumised", name: "Laekumised", width: "10%", type: "number", interval: true},

@@ -29,25 +29,8 @@ module.exports = function (app) {
     app.post('/raama/login/', require('./login').post);
 
     app.get('/raama', require('./raama').get); // module raamatupidamine
-    app.get('/raama/:documentType', checkAuth, require('./raama').get); // module raamatupidamine
     app.get('/raama/:documentType/:id', checkAuth, require('./raama/document').get); // module raamatupidamine
-
-/*
-        app.get('/admin', require('./admin').get); // module admin
-        app.get('/admin/:documentType', checkAuth, require('./admin').get); // module raamatupidamine
-        app.get('/admin/:documentType/:id', checkAuth, require('./admin/document').get); // module raamatupidamine
-    */
-
-/*
-    app.get('/juht', require('./juht').get); // module raamatupidamine
-    app.get('/juht/:documentType', checkAuth, require('./juht').get); // module raamatupidamine
-    app.get('/juht/:documentType/:id', checkAuth, require('./juht/document').get); // module raamatupidamine
-
-    app.get('/kasutaja', require('./kasutaja').get); // module raamatupidamine
-    app.get('/kasutaja/:documentType', checkAuth, require('./kasutaja').get); // module raamatupidamine
-    app.get('/kasutaja/:documentType/:id', checkAuth, require('./kasutaja/document').get); // module raamatupidamine
-*/
-
+    app.get('/raama/:documentType', checkAuth, require('./raama').get); // module raamatupidamine
     app.post('/redirect/:link/', require('./redirect').get); //checkAuth,
 
     app.post('/newApi/startMenu/:module', require('./startMenu').post); //checkAuth,

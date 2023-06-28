@@ -23,16 +23,24 @@ class Tree extends React.PureComponent {
         this.getTree = this.getTree.bind(this);
     }
 
+    // will update state if props changed
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.value !== prevState.value) {
+            return {value: nextProps.value};
+        } else return null;
+    }
+
+
     componentDidUpdate(nextProps) {
         this.getIndex(nextProps.value);
         this.setState({index: this.getIndex(nextProps.value), value: nextProps.value});
     }
 
     render() {
-
         if (!this.props.data.length) {
             return null;
         }
+        console.log('updated tree render', this.props.data, this.state)
         return (
             <div ref="tree">
                 {this.getTree('0')}
@@ -54,7 +62,7 @@ class Tree extends React.PureComponent {
                         if (row.id === selectedId) {
                             return row;
                         }
-                    }) : [] ,
+                    }) : [],
                     value = data[0][this.props.bindDataField];
 
                 this.setState({
@@ -67,7 +75,7 @@ class Tree extends React.PureComponent {
                 }
             } else {
                 // проект bors
-                this.setState({activeComponent:selectedId})
+                this.setState({activeComponent: selectedId})
                 if (this.props.onClickAction) {
                     this.props.onClickAction(this.props.name + 'Change', selectedId);
                 }

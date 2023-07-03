@@ -12,7 +12,7 @@ const DocumentTemplate = require('./../../documentTemplate/index.jsx'),
 
     styles = require('./styles');
 
-const LIB_OBJS = require('./../../../../config/constants').REKV.LIB_OBJS;
+const LIB_OBJS = [];
 
 
 /**
@@ -23,7 +23,7 @@ class Rekv extends React.PureComponent {
         super(props);
 
         this.state = {
-            docId: props.docId ? props.docId : Number(props.match.params.docId),
+            docId: 1, // тут всегда 1
             loadedData: false
         };
         this.renderer = this.renderer.bind(this);
@@ -35,6 +35,7 @@ class Rekv extends React.PureComponent {
             <DocumentTemplate docId={this.state.docId}
                               ref='document'
                               docTypeId='REKV'
+                              store={this.props.store}
                               history={this.props.history}
                               module={this.props.module}
                               libs={LIB_OBJS}
@@ -94,20 +95,6 @@ class Rekv extends React.PureComponent {
                                onChange={self.handleInputChange}/>
                 </div>
                 <div style={styles.docRow}>
-                    <Select title="Asutuse liik:"
-                            name='liik'
-                            data={self.libs['asutuse_liik']}
-                            value={self.docData.liik || ''}
-                            defaultValue={self.docData.liik || ''}
-                            ref='liik'
-                            collId="kood"
-                            readOnly={!self.state.edited}
-                            onChange={self.handleInputChange}/>
-
-
-                </div>
-
-                <div style={styles.docRow}>
                     <TextArea title="Aadress: "
                               name='aadress'
                               ref="textarea-aadress"
@@ -140,58 +127,6 @@ class Rekv extends React.PureComponent {
                                readOnly={!self.state.edited}
                                value={self.docData.email || ''}
                                onChange={self.handleInputChange}/>
-                </div>
-                <div style={styles.docRow}>
-                    <InputText title="Omniva salasõna: "
-                               name='earved'
-                               ref="input-earved"
-                               readOnly={!self.state.edited}
-                               value={self.docData.earved || ''}
-                               onChange={self.handleInputChange}/>
-                </div>
-                <div style={styles.docRow}>
-                    <InputText title="E-arve asutuse reg.kood: "
-                               name='earve_regkood'
-                               ref="input-earve_regkood"
-                               readOnly={!self.state.edited}
-                               value={self.docData.earve_regkood || ''}
-                               onChange={self.handleInputChange}/>
-                </div>
-                <div style={styles.docRow}>
-                    <div style={styles.docColumn}>
-                        <InputText title="SEB e-arve aa: "
-                                   name='seb_earve'
-                                   ref="input-seb_earve"
-                                   readOnly={!self.state.edited}
-                                   value={self.docData.seb_earve || ''}
-                                   onChange={self.handleInputChange}/>
-                    </div>
-                    <div style={styles.docColumn}>
-                        <InputText title="SEB kasutaja tunnus: "
-                                   name='seb'
-                                   ref="input-seb_parool"
-                                   readOnly={!self.state.edited}
-                                   value={self.docData.seb || ''}
-                                   onChange={self.handleInputChange}/>
-                    </div>
-                </div>
-                <div style={styles.docRow}>
-                    <div style={styles.docColumn}>
-                        <InputText title="SWED e-arve aa: "
-                                   name='swed_earve'
-                                   ref="input-swed-earve"
-                                   readOnly={!self.state.edited}
-                                   value={self.docData.swed_earve || ''}
-                                   onChange={self.handleInputChange}/>
-                    </div>
-                    <div style={styles.docColumn}>
-                        <InputText title="SWED kasutaja tunnus: "
-                                   name='swed'
-                                   ref="input-swed_parool"
-                                   readOnly={!self.state.edited}
-                                   value={self.docData.swed || ''}
-                                   onChange={self.handleInputChange}/>
-                    </div>
                 </div>
                 <div style={styles.docRow}>
                     <DataGrid source='details'
@@ -272,15 +207,6 @@ class Rekv extends React.PureComponent {
                                 value={row.kassapank || ''}
                                 ref='kassapank'
                                 collId="id"
-                                onChange={self.handleGridRowChange}/>
-                    </div>
-                    <div style={styles.docRow}>
-                        <Select title="Konto: "
-                                name='konto'
-                                data={self.libs['kontod']}
-                                value={row.konto || ''}
-                                ref='konto'
-                                collId="kood"
                                 onChange={self.handleGridRowChange}/>
                     </div>
                     <div style={styles.docRow}>

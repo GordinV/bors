@@ -3,6 +3,7 @@ module.exports = {
     taotlus_login: '/ou/taotlus_login',
     asutused:'/libs/asutused',
     kontod:'/libs/kontod',
+    config: '/ou/config',
     tunnus:'/libs/tunnus',
     objekt: '/libs/objekt',
     project: '/libs/project',

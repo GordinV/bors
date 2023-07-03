@@ -41,6 +41,8 @@ if (localStorage.getItem('user')) {
         DocContext.userData = Object.assign({}, DocContext.userData, user)
     }
 }
+store.dispatch({type: 'model', payload: 'raama'});
+
 
 ReactDOM.hydrate(
     <BrowserRouter>

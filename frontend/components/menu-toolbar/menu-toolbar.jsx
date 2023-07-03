@@ -207,8 +207,6 @@ class MenuToolBar extends React.Component {
 
     btnStartClick() {
         // обработчик для кнопки Start
-        console.log('btnStar clicked')
-
         this.setState({showStartMenu: !this.state.showStartMenu});
 
     }
@@ -281,8 +279,8 @@ class MenuToolBar extends React.Component {
             let module = store.getState().statuses.module;
             store.dispatch({type: 'user', user: {}});
             this.setState({logedIn: false});
-            document.location.href = '/logout'
             if (module !== 'main') {
+                document.location.href = '/logout'
                 // закроем окно
                 window.close();
             }

@@ -29,13 +29,34 @@ const createPDF = async function createFile(html, fileName = 'doc') {
 };
 
 const getConfigData = async function (user) {
-    const docConfig = new Doc('config', user.asutusId, user.userId, user.asutusId, 'lapsed');
+/*
+    const docConfig = new Doc('config', user.asutusId, user.userId, user.asutusId, 'ku');
     const configData = await docConfig.select();
-    UserConfig.email = {...configData.row[0]};
+*/
+    let lcSql = `SELECT coalesce((u.properties ->> 'port')::VARCHAR(100))::VARCHAR(100)   AS port,
+                        coalesce((u.properties ->> 'smtp')::VARCHAR(100))::VARCHAR(100)   AS smtp,
+                        coalesce((u.properties ->> 'user')::VARCHAR(100))::VARCHAR(100)   AS user,
+                        coalesce((u.properties ->> 'pass')::VARCHAR(100))::VARCHAR(100)   AS pass,
+                        coalesce((u.properties ->> 'email')::VARCHAR(254))::VARCHAR(254)  AS email
+                 FROM ou.userid u
+    WHERE u.id = ${user.id}`
+    try {
+        let data = await db.queryDb(lcSql);
+        if (data && data.error_code) {
+            console.error('Viga', lcSql);
+        }
+        UserConfig.email = {...data.data[0]};
+
+    } catch (e) {
+        console.error('Errror:', e)
+    }
+
+
 };
 
 exports.post = async (req, res) => {
     const params = req.body;
+    console.log('mailing params', params)
     const id = Number(params.docId || 0); // параметр id документа
     let ids = params.data || []; // параметр ids документов
 

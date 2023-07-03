@@ -32,6 +32,7 @@ class Documents extends React.PureComponent {
             <div>
                 <DocumentRegister initData={this.props.initData}
                                   ref='register'
+                                  store={this.props.store}
                                   history={this.props.history ? this.props.history : null}
                                   docTypeId={DOC_TYPE_ID}
                                   module={this.props.module}

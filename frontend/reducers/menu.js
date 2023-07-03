@@ -4,6 +4,7 @@ const initialState = {
         {id: 'main', parentid: 0, kood: 'main', name: 'main', props: null},
         {id: 'document', parentid: 0, kood: 'document', name: 'Documents', props: null, is_node: true},
         {id: 'library', parentid: 0, kood: 'library', name: 'Libraries', props: {type: "library", module: ["raama"], is_admin: true}, is_node: true},
+        {id: 'service', parentid: 0, kood: 'service', name: 'Service', props: {type: "service", module: ["raama"], is_admin: true}, is_node: true},
         {id: 'report', parentid: 0, kood: 'report', name: 'Reports', props: {type: "report", module: ["raama"], is_admin: true}, is_node: true},
         {id: 'module', parentid: 0, kood: 'module', name: 'Modules', props: null, is_node: true},
         {
@@ -71,6 +72,14 @@ const initialState = {
             is_node: false
         },
         {
+            id: 'VMK',
+            parentid: 'document',
+            kood: 'VMK',
+            name: 'Sent payment orders',
+            props: {type: "document", module: ["raama"], is_admin: true},
+            is_node: false
+        },
+        {
             id: 'nomenclature',
             parentid: 'library',
             kood: 'nomenclature',
@@ -94,7 +103,23 @@ const initialState = {
             props: {type: "report", module: ["raama"], is_admin: true},
             is_node: false
         },
-
+        {
+            id: 'rekv',
+            parentid: 'service',
+            kood: 'rekv',
+            name: 'Company data',
+            props: {type: "service", module: ["raama"], is_admin: true},
+            is_node: false
+        },
+        /*
+        {
+            id: 'kaibeandmik',
+            parentid: 'report',
+            kood: 'kaibeandmik',
+            name: 'Käibeandmik',
+            props: {type: "report", module: ["raama"], is_admin: true},
+            is_node: false
+        },*/
     ],
 };
 

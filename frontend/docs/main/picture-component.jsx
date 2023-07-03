@@ -94,6 +94,8 @@ class Picture extends React.PureComponent {
                 author_id: this.state.author_id,
                 file: this.state.selectedFile
             }];
+        } else {
+            picture[0] = Object.assign({},picture[0], this.state)
         }
 
         let selectedFile = picture && picture.length && picture[0].id ?  `data:image/jpeg;base64,/${picture[0].file}` : this.state.uploadedImage;

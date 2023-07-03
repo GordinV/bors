@@ -22,12 +22,8 @@ const StartMenu = require('./../components/start-menu/start-menu.jsx'),
     ArveDocument = require('../docs/arv/document/index.jsx'),
     JournalRegister = require('./../docs/journal/index.jsx'),
     JournalDocument = require('../docs/journal/document/index.jsx'),
-    SorderRegister = require('./../docs/sorder/index.jsx'),
-    SorderDocument = require('../docs/sorder/document/index.jsx'),
     PankVvRegister = require('./../docs/pank_vv/index.jsx'),
     PankVvDocument = require('../docs/pank_vv/document/index.jsx'),
-    VorderRegister = require('./../docs/vorder/index.jsx'),
-    VorderDocument = require('../docs/vorder/document/index.jsx'),
     SmkRegister = require('./../docs/smk/index.jsx'),
     SmkDocument = require('../docs/smk/document/index.jsx'),
     VmkRegister = require('./../docs/vmk/index.jsx'),
@@ -37,7 +33,6 @@ const StartMenu = require('./../components/start-menu/start-menu.jsx'),
     KontoAndmik = require('./../docs/kontoandmik/index.jsx'),
     ArvedKoodiJargi = require('./../docs/arved_koodi_jargi/index.jsx'),
     ArveKokkuvote = require('./../docs/arve_kokkuvote/index.jsx'),
-    RekvRegister = require('./../docs/rekv/index.jsx'),
     RekvDocument = require('./../docs/rekv/document/index.jsx');
 
 const {Route} = require('react-router-dom');
@@ -133,24 +128,6 @@ class App extends React.Component {
                                                         store={store}
                                                         initData={this.props.initData}
                                                         module={MODULE}/>}/>
-                <Route exact path="/raama/sorder/:docId"
-                       component={SorderDocument}
-                       store={store}
-                       module={MODULE}/>
-                <Route exact path="/raama/sorder"
-                       render={(props) => <SorderRegister history={props.history}
-                                                          store={store}
-                                                          initData={this.props.initData}
-                                                          module={MODULE}/>}/>
-                <Route exact path="/raama/vorder/:docId"
-                       component={VorderDocument}
-                       store={store}
-                       module={MODULE}/>
-                <Route exact path="/raama/vorder"
-                       render={(props) => <VorderRegister history={props.history}
-                                                          store={store}
-                                                          initData={this.props.initData}
-                                                          module={MODULE}/>}/>
                 <Route exact path="/raama/smk/:docId"
                        render={(props) => <SmkDocument  {...props}
                                                          module={MODULE}
@@ -174,9 +151,11 @@ class App extends React.Component {
 
 
                 <Route exact path="/raama/vmk/:docId"
-                       component={VmkDocument}
-                       store={store}
-                       module={MODULE}/>
+                       render={(props) => <VmkDocument  {...props}
+                                                        module={MODULE}
+                                                        store={store}
+                                                        history={props.history}/>}
+                />
                 <Route exact path="/raama/vmk"
                        render={(props) => <VmkRegister history={props.history}
                                                        initData={this.props.initData}
@@ -233,11 +212,6 @@ class App extends React.Component {
                                                          store={store}
                                                          initData={this.props.initData}/>}/>
                 <Route exact path="/raama/rekv"
-                       render={(props) => <RekvRegister history={props.history}
-                                                        store={store}
-                                                        initData={this.props.initData}
-                                                        module={MODULE}/>}/>
-                <Route exact path="/raama/rekv/:docId"
                        render={(props) => <RekvDocument  {...props}
                                                          module={MODULE}
                                                          store={store}

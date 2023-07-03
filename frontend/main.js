@@ -18,7 +18,7 @@ const Doc = require('../frontend/modules/main.jsx');
 if (localStorage.getItem('user')) {
     let user = JSON.parse(localStorage.getItem('user'));
     let today = new Date();
-    let loadedDate = user.loadedDate ? new Date(user.loadedDate): null;
+    let loadedDate = user.loadedDate ? new Date(user.loadedDate) : null;
 
 
     if (!loadedDate || loadedDate.getDate() !== today.getDate()) {
@@ -27,8 +27,8 @@ if (localStorage.getItem('user')) {
     } else {
         store.dispatch({type: 'user', user: user});
     }
-
 }
+store.dispatch({type: 'model', payload: 'main'});
 
 ReactDOM.hydrate(
     <Provider store={store}>

@@ -43,6 +43,7 @@ const Arv = {
                          asutus.regkood,
                          trim(asutus.nimetus)                                              AS asutus,
                          asutus.aadress,
+                         trim(asutus.email)                                                AS email,
                          (asutus.properties ->> 'kmkr') :: VARCHAR(20)                     AS kmkr,
                          a.doklausid,
                          a.journalid,

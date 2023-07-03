@@ -50,6 +50,7 @@ class Vmk extends React.Component {
     render() {
         return <DocumentTemplate docId={this.state.docId}
                                  ref='document'
+                                 store={this.props.store}
                                  docTypeId='VMK'
                                  module={'lapsed'}
                                  reload={true}

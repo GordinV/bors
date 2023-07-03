@@ -123,6 +123,7 @@ class MenuToolBar extends React.Component {
                               disabled={toolbarParams['btnStart'].disabled}
                     />
                     {this.state.logedIn ? (<BtnAdd onClick={this.btnAddClick}
+                                                   value={'Add picture'}
                                                    show={toolbarParams['btnAdd'].show}
                                                    disable={toolbarParams['btnAdd'].disabled}/>) : null}
 

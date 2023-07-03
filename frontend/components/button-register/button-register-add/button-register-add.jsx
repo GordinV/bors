@@ -8,7 +8,7 @@ const styles = require('../button-register-styles'),
     ICON = 'add';
 
 
-class ButtonRegisterAdd extends React.PureComponent{
+class ButtonRegisterAdd extends React.PureComponent {
 // кнопка создания документа в регистрах
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class ButtonRegisterAdd extends React.PureComponent{
 
     render() {
         return <Button
-            value = 'Add picture'
+            value={this.props.value ? this.props.value : 'Lisa'}
             ref="btnAdd"
             style={styles.button}
             show={this.props.show}

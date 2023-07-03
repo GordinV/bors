@@ -20,7 +20,7 @@ class ButtonRegisterAdd extends React.PureComponent{
 
     render() {
         return <Button
-            value = 'Lisa'
+            value = 'Add picture'
             ref="btnAdd"
             style={styles.button}
             show={this.props.show}

@@ -30,6 +30,23 @@ module.exports = {
                                       INNER JOIN bors.pictures p
                                                  ON p.id = deal.picture_id
                              WHERE D.status <> 3
+                             UNION ALL
+                             SELECT d.id,
+                                    l.kood::TEXT                          AS doc_type_id,
+                                    l.nimetus                             AS dokument,
+                                    to_char(mk.kpv, 'DD.MM.YYYY') :: TEXT AS kpv,
+                                    mk1.summa,
+                                    a.nimetus                             AS asutus,
+                                    NULL                                  AS deal_id,
+                                    NULL                                  AS objekt,
+                                    $1::INTEGER                           AS rekvid,
+                                    $2::INTEGER                           AS userId,
+                                    d.lastupdate
+                             FROM docs.doc d
+                                      INNER JOIN docs.mk mk ON d.id = mk.parentid
+                                      INNER JOIN docs.mk1 mk1 ON mk.id = mk1.parentid
+                                      INNER JOIN libs.asutus a ON a.id = mk1.asutusid
+                                      INNER JOIN libs.library l ON l.id = d.doc_type_id
                          ) qry
                     ORDER BY lastupdate DESC`,     //  $1 всегда ид учреждения $2 - всегда ид пользователя
         params: '',

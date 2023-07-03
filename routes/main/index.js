@@ -39,7 +39,6 @@ exports.upload = async (req, res) => {
     });
     busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
         //extract intput-field from upload-form
-        console.log('fieldname', fieldname, val)
         switch (fieldname) {
             case 'kood':
                 kood = val;
@@ -142,7 +141,6 @@ exports.get = async (req, res) => {
         user = {user: 'vlad'},
         context = {};
 
-    console.log('main get')
     DocumentView = require('./../../frontend/docs/main/index.jsx');
 
     // делаем запрос , получаем первоначальные данные

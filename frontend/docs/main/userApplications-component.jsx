@@ -3,7 +3,7 @@
 const React = require('react');
 const styles = require('./styles');
 const fetchData = require('./../../../libs/fetchData');
-const AuthorComponent = require('./author-component.jsx');
+const AuthorComponent = require('./userAplication-component.jsx');
 
 
 /**

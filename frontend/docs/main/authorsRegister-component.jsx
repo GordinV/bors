@@ -29,7 +29,7 @@ class AuthorsRegisterComponent extends React.PureComponent {
         let store = this.props.store;
         if (store) {
             store.subscribe(() => {
-                let authors = store.getState().authors;
+                let authors = store.getState().authors.authors;
                 let user = store.getState().statuses.user;
 
                 if (JSON.stringify(authors) !== JSON.stringify(this.state.authors) ||
@@ -61,7 +61,7 @@ class AuthorsRegisterComponent extends React.PureComponent {
         if (!authors.length && this.props.store) {
             // подгрузим из стора
             let store = this.props.store;
-            authors = store.getState().authors;
+            authors = store.getState().authors.authors;
             authorId = store.getState().statuses.pictureId;
         }
         if (authors && authors.length) {
@@ -138,7 +138,7 @@ class AuthorsRegisterComponent extends React.PureComponent {
     }
 
     btnClickHandler(event, authorId) {
-            this.props.store.dispatch({type: 'pictureId', pictureId: authorId});
+            this.props.store.dispatch({type: 'authorId', payload: authorId});
             switch (event) {
                 case 'btnAdd':
                     // новая картинка
@@ -157,42 +157,6 @@ class AuthorsRegisterComponent extends React.PureComponent {
 
             }
         }
-
-/*
-    /!**
-     * загрузка данных
-     * @returns {*|Promise<AxiosResponse<unknown> | never>}
-     *!/
-    fetchData(event, dealId) {
-        let URL = `/main/deal_accept/`;
-        let user = this.props.store.getState().statuses.user;
-        let params = {id: dealId, event: event, user: user};
-        return new Promise((resolved, rejected) => {
-                fetchData['fetchDataPost'](URL, params).then(response => {
-                    // error handling
-                    if (response.status === 200) {
-                        this.setState({info: 'Update succefull'})
-                        if (this.props.btnClickEventHandler) {
-                            // дадим на верх команду на релоад
-                            this.props.btnClickEventHandler('reload')
-                        }
-                        resolved(response.data);
-                    } else {
-                        console.error('status !== 200')
-                        this.setState({info: 'Update with error'})
-                        return rejected();
-                    }
-
-                }).catch((error) => {
-                    console.error('fetch error', error);
-                    this.setState({info: `Update with error ${error}`})
-                    return rejected(error);
-                });
-            }
-        )
-            ;
-    }
-*/
 
 }
 

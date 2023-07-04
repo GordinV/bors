@@ -219,7 +219,6 @@ class Register extends React.PureComponent {
     }
 
     btnAddClick() {
-        console.log('main btnAddClick')
         this.fetchData()
         this.forceUpdate()
     }
@@ -240,7 +239,6 @@ class Register extends React.PureComponent {
             let url = `/main/${library}`;
             return new Promise((resolved, rejected) => {
                 fetchData['fetchDataPost'](url).then(response => {
-                    console.log('lib load response', response.data)
                     // error handling
                     if (response.status === 200) {
                         let store = this.props.store;
@@ -288,8 +286,10 @@ class Register extends React.PureComponent {
 
             fetchData['fetchDataPost'](URL, params).then(response => {
                 // error handling
+
                 if (response.status === 200) {
                     this.setState({warning: 'Data loaded successfuly', warningStyle: 'ok'})
+
                     let store = this.props.store;
                     // сохраним данные в сторе
                     switch (this.state.activeComponent) {
@@ -306,7 +306,7 @@ class Register extends React.PureComponent {
                             break;
                         }
                         case 'AUTHORS': {
-                            store.dispatch({type: 'authors', library: response.data.data});
+                            store.dispatch({type: 'authors', payload: response.data.data});
                             break;
                         }
                         default:

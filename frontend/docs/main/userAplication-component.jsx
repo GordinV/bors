@@ -8,7 +8,7 @@ const fetchData = require('./../../../libs/fetchData');
 
 const ModalPage = require('./../../components/modalpage/modalPage.jsx');
 
-class Artist extends React.PureComponent {
+class Taotlus extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,15 +97,6 @@ class Artist extends React.PureComponent {
                     />
                 </div>
                 <div style={styles.docRow}>
-                    <label style={styles.label}>Code: </label>
-                    <input type='text'
-                           id={'code'}
-                           name={'code'}
-                           onChange={this.onChangeInput}
-                           value={author.code || ''}
-                    />
-                </div>
-                <div style={styles.docRow}>
                     <label style={styles.label}>Name: </label>
                     <input type='text'
                            id={'name'}
@@ -189,9 +180,6 @@ class Artist extends React.PureComponent {
         state = {...this.state, state};
 
         switch (fieldName) {
-            case 'code':
-                this.setState({code: fieldValue, isEditeMode: true});
-                break;
             case 'name':
                 this.setState({name: fieldValue, isEditeMode: true});
                 break;
@@ -232,8 +220,7 @@ class Artist extends React.PureComponent {
     fecthData() {
         let data = {
             id: this.state.id,
-            code: this.state.code,
-            name: this.state.name,
+            nimi: this.state.name,
             email: this.state.email,
             aadress: this.state.aadress,
             continent: this.state.continent,
@@ -242,7 +229,7 @@ class Artist extends React.PureComponent {
             user: this.props.store.getState().statuses.user
         }
 
-        fetchData.fetchDataPost(`/main/save_author`, data).then((result) => {
+        fetchData.fetchDataPost(`/main/taotlus_save`, data).then((result) => {
             this.setState({id: result.data.result});
             let store = this.props.store;
             // вызовем перегрузку
@@ -260,24 +247,24 @@ class Artist extends React.PureComponent {
         if (!store) {
             return []
         }
-        let authorId = store.getState().authors.authorId; // получим ид документа
-        let authors = store.getState().authors.authors;
+        let authorId = store.getState().statuses.pictureId; // получим ид документа
+        let authors = store.getState().userApplications.userApplications;
         let states = store.getState();
 
-        return authors && authors.length ? authors.filter(row => row.id == authorId): [];
+        return authors.filter(row => row.id == authorId);
     }
 
 }
 
-Artist.propTypes = {
+Taotlus.propTypes = {
     disabled: PropTypes.bool,
     show: PropTypes.bool
 };
 
 
-Artist.defaultProps = {
+Taotlus.defaultProps = {
     disabled: false.valueOf(),
     pages: []
 };
 
-module.exports = Artist;
+module.exports = Taotlus;

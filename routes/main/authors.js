@@ -39,6 +39,7 @@ exports.post = async (req, res) => {
                   a.tel,
                   a.email,
                   t.kasutaja                   AS login,
+                   t.id as taotlus_id,
                   a.properties ->> 'continent' AS continent,
                   a.properties ->> 'region'    AS region,
                   a.properties ->> 'city'      AS city
@@ -57,7 +58,6 @@ exports.post = async (req, res) => {
                   )
            ORDER BY a.nimetus`;
 
-    console.log('sql', sql)
     try {
         let data = await db.queryDb(sql);
         if (data && data.error_code) {

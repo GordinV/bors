@@ -50,7 +50,6 @@ const initialState = {
             is_node: false
         },
     ],
-    authors: [],
     continents: ['', 'Europe', 'America', 'Asia', 'Australia', 'Russia'],
     cities: ['', 'Tallinna', 'Tartu', 'Narva', 'Võru', 'Valga', 'Sillamäe', 'Viljandi'],
     regions: ['', 'Ida Virumaa', 'Lääne Virumaa', 'Harjumaa', 'Lääne', 'Pärnu', 'Saare', 'Hiiumaa', 'Viljandi', 'Valga', 'Võru', 'Tartu', 'Põlva', 'Järva'],
@@ -58,7 +57,6 @@ const initialState = {
 
 // Use the initialState as a default value
 export default function appReducer(state = initialState, action) {
-    console.log('reducer', action)
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
         // Do something here based on the different types of actions
@@ -75,26 +73,6 @@ export default function appReducer(state = initialState, action) {
             }
 
         }
-/*
-        case 'pictures': {
-            // We need to return a new state object
-            return {
-                ...state, pictures: action.pictures, reloadActivePageComponent: false
-            }
-        }
-        case 'addPicture': {
-            return {
-                ...state,
-                pictures: state.pictures.map(
-                    picture => picture.id === action.picture.id
-                        ? {
-                            ...picture, ...action.picture, file: picture.file
-                        }
-                        : picture
-                ),
-            }
-        }
-*/
         case 'user': {
             return {
                 ...state, user: action.user
@@ -132,12 +110,6 @@ export default function appReducer(state = initialState, action) {
             }
         }
 
-        case 'authors': {
-            return {
-                ...state, authors: action.library
-            }
-        }
-
         default:
             // If this reducer doesn't recognize the action type, or doesn't
             // care about this specific action, return the existing state unchanged
@@ -145,46 +117,3 @@ export default function appReducer(state = initialState, action) {
     }
 }
 
-/*
-export default function getAuthors () {
-    console.log('getAuthors')
-    return dispatch => {
-        // диспатчим лоадер
-        /!*
-                    dispatch({
-                        type: authors,
-                        payload: true
-                    })
-
-        *!/
-        fetchData.fetchDataPost(`/main/authors/`).then((response) => {
-            // успешно получили данные
-            dispatch({
-                type: 'authors',
-                authors: response.data.data
-            });
-
-        });
-        /!*
-
-                    axios.get('/main/authors/')
-                        .then(res => {
-                            // успешно получили данные
-                            dispatch({
-                                type: 'authors',
-                                payload: result.data.data
-                            })
-                        })
-        *!/
-        /!*
-                        .cath(err => {
-                            // Ошибка...
-                            dispatch({
-                                type: GET_PROFILE_ERROR
-                                payload: true
-                            })
-                        })
-        *!/
-    }
-}
-*/

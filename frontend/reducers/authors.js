@@ -1,7 +1,11 @@
 const fetchData = require('./../../libs/fetchData');
 
 
-const initialState =  [];
+const initialState =
+    {
+        authors: [],
+        authorId: null
+    };
 
 // Use the initialState as a default value
 export default function authorsReducer(state = initialState, action) {
@@ -10,8 +14,16 @@ export default function authorsReducer(state = initialState, action) {
         // Do something here based on the different types of actions
 
         case 'authors': {
-            return action.library
+            return {
+                ...state, authors: action.payload
+            }
         }
+        case 'authorId': {
+            return {
+                ...state, authorId: action.payload
+            }
+        }
+
         case 'getAuthors': {
             let authors = getAuthors();
             return authors;

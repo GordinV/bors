@@ -50,6 +50,7 @@ module.exports = function (app) {
     app.post('/main/data/', require('./main').post);
     app.post('/main/taotlus_login/', require('./main/taotlus_login').post);
     app.post('/main/taotlus_accept/', require('./main/taotlus_login').accept);
+    app.post('/main/taotlus_save/', require('./main/taotlus_login').put);
     app.post('/main/save_author/', require('./main/authors').put);
     app.post('/main/authors/', require('./main/authors').post);
     app.post('/main/newDeal/', require('./main/newDeal').post);
